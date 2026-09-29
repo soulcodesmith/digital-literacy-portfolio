@@ -58,16 +58,16 @@ Then visit: [http://localhost:8000](http://localhost:8000)
    ```bash
    git init
    git add .
-   git commit -m "Initial commit: Digital literacy portfolio for SURAJ (JECRC Uni)"
+   git commit -m "feat: digital literacy personal portfolio for SURAJ (JECRC Uni)"
    ```
-2. Create a new repository on [GitHub](https://github.com/new) called `portfolio` or `<your-username>.github.io`.
+2. Repository location: [https://github.com/soulcodesmith/digital-literacy-portfolio](https://github.com/soulcodesmith/digital-literacy-portfolio)
 3. Push your code:
    ```bash
-   git remote add origin https://github.com/<your-username>/portfolio.git
+   git remote add origin https://github.com/soulcodesmith/digital-literacy-portfolio.git
    git branch -M main
    git push -u origin main
    ```
-4. In your GitHub repository, go to **Settings** > **Pages** > select **Deploy from a branch** > branch `main` / root > **Save**. Your site will be live at `https://<your-username>.github.io/portfolio/`!
+4. In your GitHub repository, go to **Settings** > **Pages** > select **Deploy from a branch** > branch `main` / root > **Save**. Your site will be live at `https://soulcodesmith.github.io/digital-literacy-portfolio/`!
 
 ### Deploying to Vercel:
 1. Drag and drop the folder directly into the [Vercel Dashboard](https://vercel.com/new).
