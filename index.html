@@ -1,16 +1,27 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth dark">
+<html lang="en" class="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SURAJ | B.Tech CSE Portfolio — Digital Literacy</title>
-  <meta name="description" content="Personal portfolio of SURAJ, 1st-year B.Tech CSE student at JECRC University. Focused on first-principles computing, software fundamentals, and digital literacy." />
-  <meta name="author" content="SURAJ" />
+  <title>SURAJ | Machine Learning Engineer — B.Tech CSE Portfolio</title>
+  <meta name="description" content="Portfolio of SURAJ, 1st-Year Computer Science Undergraduate & First-Principles ML Builder at JECRC University specializing in autograd engines, systems computing, and deep learning architectures." />
 
-  <!-- Fonts: Inter & JetBrains Mono -->
+  <!-- Pre-render theme check to prevent flash -->
+  <script>
+    (function () {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'light') {
+        document.documentElement.classList.remove('dark');
+      } else {
+        document.documentElement.classList.add('dark');
+      }
+    })();
+  </script>
+
+  <!-- Fonts: Sofia Sans Condensed (Monumental Titles) & Spline Sans Mono (Technical Details) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Sofia+Sans+Condensed:ital,wght@0,600;0,700;0,800;0,900;1,700;1,900&family=Spline+Sans+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -20,900 +31,1532 @@
       theme: {
         extend: {
           fontFamily: {
-            sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
-            mono: ['JetBrains Mono', 'monospace'],
+            sofia: ['"Sofia Sans Condensed"', 'sans-serif'],
+            spline: ['"Spline Sans Mono"', 'monospace'],
           },
           colors: {
-            brand: {
-              50: '#f4f4f5',
-              100: '#e4e4e7',
-              400: '#a1a1aa',
-              500: '#71717a',
-              900: '#18181b',
-              950: '#09090b',
-            },
-          },
-          animation: {
-            'pulse-subtle': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-            'float': 'float 6s ease-in-out infinite',
-          },
-          keyframes: {
-            float: {
-              '0%, 100%': { transform: 'translateY(0px)' },
-              '50%': { transform: 'translateY(-6px)' },
+            aura: {
+              bg: '#f7f7f7',
+              dark: '#000000',
+              muted: '#6a7282',
+              gray: '#e8e8e8',
             }
           }
-        },
-      },
+        }
+      }
     };
   </script>
 
   <!-- Lucide Icons CDN -->
   <script src="https://unpkg.com/lucide@latest"></script>
 
+  <!-- GSAP & ScrollTrigger CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <!-- Lenis Smooth Scroll CDN -->
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+
   <style>
-    /* Custom refined scrollbars */
+    :root {
+      --bg-color: #f7f7f7;
+    }
+    html.dark {
+      --bg-color: #000000;
+    }
+    body {
+      background-color: var(--bg-color);
+      font-family: 'Spline Sans Mono', monospace;
+      overflow-x: hidden;
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
+    ::selection {
+      background: #000000;
+      color: #ffffff;
+    }
+    html.dark ::selection {
+      background: #ffffff;
+      color: #000000;
+    }
+
+    /* Lenis Smooth Scroll Engine Styles */
+    html.lenis, html.lenis body {
+      height: auto;
+    }
+    .lenis.lenis-smooth {
+      scroll-behavior: auto !important;
+    }
+    .lenis.lenis-smooth [data-lenis-prevent] {
+      overscroll-behavior: contain;
+    }
+    .lenis.lenis-stopped {
+      overflow: hidden;
+    }
+    .lenis.lenis-scrolling iframe {
+      pointer-events: none;
+    }
+
+    .sofia-bold {
+      font-family: 'Sofia Sans Condensed', sans-serif;
+      font-weight: 900;
+    }
+    .sofia-semibold {
+      font-family: 'Sofia Sans Condensed', sans-serif;
+      font-weight: 700;
+    }
+    .spline-light {
+      font-family: 'Spline Sans Mono', monospace;
+      font-weight: 300;
+    }
+    .spline-regular {
+      font-family: 'Spline Sans Mono', monospace;
+      font-weight: 400;
+    }
+
+    /* Refined Custom Scrollbar */
     ::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
+      width: 5px;
+      height: 5px;
     }
     ::-webkit-scrollbar-track {
-      background: #09090b;
+      background: #f7f7f7;
     }
     ::-webkit-scrollbar-thumb {
-      background: #27272a;
+      background: #222222;
+    }
+    html.dark ::-webkit-scrollbar-track {
+      background: #000000;
+    }
+    html.dark ::-webkit-scrollbar-thumb {
+      background: #444444;
+    }
+
+    /* Staggered Kinetic Letter Styling */
+    .kinetic-letter {
+      display: inline-block;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s;
+    }
+    .kinetic-letter:hover {
+      transform: translateY(-8px) scale(1.08) !important;
+      color: #3b82f6;
+    }
+    html.dark .kinetic-letter:hover {
+      color: #60a5fa;
+    }
+
+    /* Interactive Services Accordion */
+    .service-card {
+      transition: flex-grow 0.6s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.4s ease;
+    }
+    .service-card:hover {
+      flex-grow: 2.2;
+      background-color: #ffffff;
+    }
+    html.dark .service-card:hover {
+      background-color: #111111;
+    }
+
+    /* Pill Badges */
+    .skill-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.3rem 0.75rem;
+      font-family: 'Spline Sans Mono', monospace;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
       border-radius: 9999px;
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      background-color: #ffffff;
+      color: #111111;
+      transition: all 0.25s ease;
+      cursor: default;
     }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #3f3f46;
+    .skill-badge:hover {
+      transform: translateY(-2px);
+      border-color: #000000;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+    html.dark .skill-badge {
+      border-color: rgba(255, 255, 255, 0.15);
+      background-color: #0c0c0e;
+      color: #e4e4e7;
+    }
+    html.dark .skill-badge:hover {
+      border-color: #ffffff;
+      box-shadow: 0 4px 16px rgba(255, 255, 255, 0.1);
+      color: #ffffff;
     }
 
-    /* Subtle background grid pattern */
-    .bg-grid-pattern {
-      background-size: 36px 36px;
-      background-image: 
-        linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    /* Continuous Ambient Aura Glow Animation */
+    @keyframes aura-glow-pulse {
+      0%, 100% {
+        transform: scale(0.98);
+        opacity: 0.55;
+      }
+      50% {
+        transform: scale(1.08) translate3d(0, -6px, 0);
+        opacity: 0.85;
+      }
+    }
+    .aura-glow {
+      animation: aura-glow-pulse 6s ease-in-out infinite;
     }
 
-    /* Ambient lighting effect */
-    .glow-ambient {
-      background: radial-gradient(circle at 50% 0%, rgba(120, 119, 198, 0.08) 0%, rgba(0, 0, 0, 0) 70%);
+    /* Continuous Marquee Animation */
+    @keyframes marquee {
+      0% { transform: translateX(0%); }
+      100% { transform: translateX(-50%); }
     }
-
-    /* Card glow border on hover */
-    .hover-glow:hover {
-      box-shadow: 0 0 25px -5px rgba(255, 255, 255, 0.06);
+    .animate-marquee {
+      display: inline-flex;
+      width: max-content;
+      animation: marquee 28s linear infinite;
+    }
+    .animate-marquee:hover {
+      animation-play-state: paused;
     }
   </style>
 </head>
 
-<body class="bg-[#09090b] text-zinc-100 font-sans antialiased selection:bg-zinc-800 selection:text-white relative min-h-screen flex flex-col justify-between overflow-x-hidden">
+<body class="bg-[#f7f7f7] dark:bg-black text-black dark:text-white antialiased relative min-h-screen">
 
-  <!-- Background Lighting Gradients -->
-  <div class="fixed inset-0 pointer-events-none z-0">
-    <div class="absolute -top-[20%] left-1/2 -translate-x-1/2 w-[700px] h-[500px] bg-gradient-to-b from-indigo-500/10 via-zinc-800/5 to-transparent blur-[120px] rounded-full"></div>
-    <div class="absolute top-[40%] -left-[100px] w-[450px] h-[450px] bg-blue-500/5 blur-[100px] rounded-full"></div>
-    <div class="absolute top-[70%] -right-[100px] w-[500px] h-[500px] bg-emerald-500/5 blur-[120px] rounded-full"></div>
-    <div class="absolute inset-0 bg-grid-pattern opacity-60"></div>
+  <!-- ==================== CINEMATIC PRELOADER CURTAIN ==================== -->
+  <div id="preloader" onclick="skipPreloader()" class="fixed inset-0 z-[100] bg-black text-white flex flex-col justify-between p-6 sm:p-12 font-mono select-none overflow-hidden will-change-transform cursor-pointer">
+    
+    <!-- Top Meta Row -->
+    <div class="flex items-center justify-between text-xs tracking-widest uppercase text-zinc-400 border-b border-white/10 pb-4">
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+        <span class="text-white font-bold">SYSTEM INITIALIZING</span>
+        <span class="text-zinc-600">//</span>
+        <span>SURAJ CODESMITH</span>
+      </div>
+      <div class="hidden sm:block text-zinc-500">
+        BATCH '26 • B.TECH CSE
+      </div>
+    </div>
+
+    <!-- Center Dramatic Counter -->
+    <div class="my-auto flex flex-col items-center justify-center text-center py-8">
+      <div class="text-[22vw] sm:text-[16rem] font-black sofia-bold leading-none tracking-tight text-white flex items-center justify-center">
+        <span id="loader-num">000</span>
+      </div>
+      
+      <!-- Hairline Progress Bar -->
+      <div class="w-64 sm:w-96 h-[3px] bg-white/15 mt-4 relative overflow-hidden rounded-full">
+        <div id="loader-bar" class="absolute top-0 left-0 h-full w-0 bg-white transition-all duration-75"></div>
+      </div>
+
+      <div class="text-[10px] sm:text-xs tracking-[0.3em] uppercase text-zinc-400 mt-4 flex items-center gap-2">
+        <span class="animate-pulse">●</span>
+        <span id="loader-status">LOADING ARCHITECTURAL CANVAS...</span>
+      </div>
+    </div>
+
+    <!-- Bottom Meta Row -->
+    <div class="flex items-center justify-between text-xs tracking-widest uppercase text-zinc-400 border-t border-white/10 pt-4">
+      <div>
+        JECRC UNIVERSITY • JAIPUR
+      </div>
+      <div class="text-zinc-400 hover:text-white transition-colors underline text-[10px] sm:text-xs">
+        CLICK OR PRESS ENTER TO SKIP ↵
+      </div>
+    </div>
+
   </div>
+
+  <!-- Top Minimalist Progress Bar -->
+  <div id="scroll-progress" class="fixed top-0 left-0 w-full h-[2px] bg-black dark:bg-white z-[70] origin-left scale-x-0 pointer-events-none"></div>
 
   <!-- Toast Notification Container for Email Copy -->
-  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-16 opacity-0 transition-all duration-300 pointer-events-none flex items-center gap-2.5 px-4 py-3 bg-zinc-900/90 text-zinc-100 text-sm font-medium rounded-xl border border-zinc-700/80 shadow-2xl backdrop-blur-md">
-    <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i>
-    <span id="toast-message">Email copied to clipboard!</span>
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none flex items-center gap-2.5 px-4 py-3 bg-black text-white dark:bg-white dark:text-black text-xs font-mono rounded shadow-2xl border border-white/20 dark:border-black/20">
+    <i data-lucide="check" class="w-4 h-4 text-emerald-400 dark:text-emerald-600"></i>
+    <span id="toast-message">Email copied: soulcodesmith@gmail.com</span>
   </div>
 
-  <!-- ==================== 1. FLOATING NAVIGATION BAR ==================== -->
-  <header class="sticky top-4 z-40 px-4 sm:px-6 max-w-5xl mx-auto w-full">
-    <nav class="backdrop-blur-xl bg-zinc-950/70 border border-white/[0.08] shadow-[0_8px_30px_rgb(0,0,0,0.4)] rounded-2xl px-4 py-2.5 flex items-center justify-between transition-all duration-200">
+  <!-- ==================== 1. FIXED EDITORIAL NAVIGATION ==================== -->
+  <header class="fixed top-0 left-0 w-full z-50 bg-[#f7f7f7]/90 dark:bg-black/90 backdrop-blur-md border-b border-black/5 dark:border-white/10 px-6 lg:px-12 py-5 transition-all">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
       
-      <!-- Monogram / Logo -->
-      <a href="#hero" class="flex items-center gap-2.5 group">
-        <div class="w-9 h-9 rounded-xl bg-gradient-to-b from-zinc-800 to-zinc-900 border border-white/10 flex items-center justify-center font-mono font-bold text-zinc-100 text-sm shadow-inner group-hover:border-zinc-500 transition-colors">
-          S<span class="text-emerald-400">.</span>
+      <!-- Brand Logo (Stacked Grotesque) -->
+      <a href="#hero" class="flex items-center gap-3 group">
+        <div class="w-10 h-10 overflow-hidden bg-black border border-black/10 dark:border-white/20 shrink-0 shadow-sm">
+          <img src="assets/profile.png" alt="SURAJ" class="w-full h-full object-cover object-top grayscale contrast-125 group-hover:scale-110 transition-transform duration-500" />
         </div>
-        <div class="flex flex-col">
-          <span class="text-sm font-semibold tracking-tight text-zinc-100 group-hover:text-white transition-colors">SURAJ</span>
-          <span class="text-[10px] text-zinc-500 font-mono tracking-wider">JECRC UNIV</span>
+        <div class="flex flex-col text-left leading-[0.85] font-black uppercase text-xl sofia-bold tracking-tight">
+          <span class="text-black dark:text-white group-hover:text-zinc-600 dark:group-hover:text-zinc-300 transition-colors">SURAJ</span>
+          <span class="text-xs font-mono tracking-widest text-zinc-500 dark:text-zinc-400">CODESMITH</span>
         </div>
       </a>
 
-      <!-- Desktop Navigation Links -->
-      <div class="hidden md:flex items-center gap-1 bg-zinc-900/50 p-1 rounded-xl border border-white/[0.05]">
-        <a href="#about" class="px-3 py-1.5 text-xs font-medium text-zinc-400 hover:text-zinc-100 hover:bg-white/[0.04] rounded-lg transition-all">About</a>
-        <a href="#skills" class="px-3 py-1.5 text-xs font-medium text-zinc-400 hover:text-zinc-100 hover:bg-white/[0.04] rounded-lg transition-all">Skills</a>
-        <a href="#projects" class="px-3 py-1.5 text-xs font-medium text-zinc-400 hover:text-zinc-100 hover:bg-white/[0.04] rounded-lg transition-all">Projects</a>
-        <a href="#coursework" class="px-3 py-1.5 text-xs font-medium text-zinc-400 hover:text-zinc-100 hover:bg-white/[0.04] rounded-lg transition-all">Coursework</a>
-        <a href="#contact" class="px-3 py-1.5 text-xs font-medium text-zinc-400 hover:text-zinc-100 hover:bg-white/[0.04] rounded-lg transition-all">Contact</a>
-      </div>
+      <!-- Desktop Nav Bracket Links -->
+      <nav class="hidden md:flex items-center gap-6 lg:gap-10 text-xs tracking-wider uppercase font-mono">
+        <a href="#about" class="text-black/80 dark:text-white/80 hover:text-black dark:hover:text-white transition-colors py-1 hover:font-bold">[ ABOUT ME ]</a>
+        <a href="#works" class="text-black/80 dark:text-white/80 hover:text-black dark:hover:text-white transition-colors py-1 hover:font-bold">[ WORKS ]</a>
+        <a href="#services" class="text-black/80 dark:text-white/80 hover:text-black dark:hover:text-white transition-colors py-1 hover:font-bold">[ SERVICES ]</a>
+        <a href="#skills-matrix" class="text-black/80 dark:text-white/80 hover:text-black dark:hover:text-white transition-colors py-1 hover:font-bold">[ SKILLS ]</a>
+        <a href="#connect" class="text-black/80 dark:text-white/80 hover:text-black dark:hover:text-white transition-colors py-1 hover:font-bold">[ CONNECT ]</a>
+      </nav>
 
-      <!-- Action Buttons -->
-      <div class="hidden sm:flex items-center gap-2.5">
-        <button onclick="copyEmail()" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-zinc-300 hover:text-white bg-zinc-900 hover:bg-zinc-800 border border-white/10 rounded-xl transition-all">
-          <i data-lucide="copy" class="w-3.5 h-3.5"></i>
-          <span>Copy Email</span>
+      <!-- Action Button Group: Dark/Light Mode Toggle + Contact Me ↗ -->
+      <div class="flex items-center gap-3 sm:gap-4">
+        
+        <!-- Theme Toggle Button -->
+        <button 
+          id="theme-toggle" 
+          onclick="toggleTheme()" 
+          aria-label="Toggle Dark/Light Mode"
+          title="Toggle Light / Dark mode (or press 'D')"
+          class="group inline-flex items-center gap-1.5 px-3 py-1 text-xs font-mono uppercase tracking-wider border border-black dark:border-white text-black dark:text-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all cursor-pointer">
+          <i data-lucide="sun" id="theme-icon-sun" class="w-3.5 h-3.5 hidden"></i>
+          <i data-lucide="moon" id="theme-icon-moon" class="w-3.5 h-3.5"></i>
+          <span id="theme-text">LIGHT</span>
         </button>
-        <a href="mailto:soulcodesmith@gmail.com?subject=Resume%20Request%20-%20SURAJ" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-medium text-zinc-950 bg-zinc-100 hover:bg-white rounded-xl shadow-sm hover:shadow-[0_0_15px_rgba(255,255,255,0.25)] transition-all">
-          <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
-          <span>Get Resume</span>
+
+        <!-- Contact Link -->
+        <a href="#connect" class="group relative inline-flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider text-black dark:text-white pb-0.5 border-b border-black dark:border-white hover:border-black/40 dark:hover:border-white/40 transition-all">
+          <span>CONTACT ME</span>
+          <span class="transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200">↗</span>
         </a>
+
+        <!-- Mobile Menu Toggle -->
+        <button id="mobile-toggle" aria-label="Toggle menu" class="md:hidden p-1.5 text-black dark:text-white focus:outline-none">
+          <i data-lucide="menu" class="w-5 h-5"></i>
+        </button>
       </div>
 
-      <!-- Mobile Menu Button -->
-      <button id="mobile-toggle" aria-label="Toggle Navigation Menu" class="md:hidden p-2 text-zinc-400 hover:text-white focus:outline-none">
-        <i id="menu-icon" data-lucide="menu" class="w-5 h-5"></i>
+    </div>
+
+    <!-- Mobile Dropdown -->
+    <div id="mobile-menu" class="hidden md:hidden pt-4 pb-2 border-t border-black/5 dark:border-white/10 mt-4 flex flex-col gap-3 font-mono text-xs uppercase tracking-wider">
+      <a href="#about" onclick="toggleMenu()" class="py-1 text-black/80 dark:text-white/80 hover:text-black dark:hover:text-white">[ ABOUT ME ]</a>
+      <a href="#works" onclick="toggleMenu()" class="py-1 text-black/80 dark:text-white/80 hover:text-black dark:hover:text-white">[ WORKS ]</a>
+      <a href="#services" onclick="toggleMenu()" class="py-1 text-black/80 dark:text-white/80 hover:text-black dark:hover:text-white">[ SERVICES ]</a>
+      <a href="#skills-matrix" onclick="toggleMenu()" class="py-1 text-black/80 dark:text-white/80 hover:text-black dark:hover:text-white">[ SKILLS ]</a>
+      <a href="#connect" onclick="toggleMenu()" class="py-1 text-black/80 dark:text-white/80 hover:text-black dark:hover:text-white">[ CONNECT ]</a>
+      <button onclick="toggleTheme()" class="text-left py-1 text-black/80 dark:text-white/80 hover:text-black dark:hover:text-white flex items-center justify-between">
+        <span id="mobile-theme-text">[ SWITCH THEME ]</span>
+        <span class="text-[10px] font-mono border border-black dark:border-white px-2 py-0.5">TOGGLE</span>
       </button>
-    </nav>
-
-    <!-- Mobile Dropdown Navigation -->
-    <div id="mobile-menu" class="hidden md:hidden mt-2 p-3 backdrop-blur-2xl bg-zinc-950/95 border border-white/10 rounded-2xl shadow-2xl flex flex-col gap-1 transition-all">
-      <a href="#about" onclick="toggleMenu()" class="px-3 py-2 text-sm text-zinc-300 hover:bg-zinc-900 rounded-lg">About</a>
-      <a href="#skills" onclick="toggleMenu()" class="px-3 py-2 text-sm text-zinc-300 hover:bg-zinc-900 rounded-lg">Skills & Bento</a>
-      <a href="#projects" onclick="toggleMenu()" class="px-3 py-2 text-sm text-zinc-300 hover:bg-zinc-900 rounded-lg">Projects</a>
-      <a href="#coursework" onclick="toggleMenu()" class="px-3 py-2 text-sm text-zinc-300 hover:bg-zinc-900 rounded-lg">Coursework & Milestones</a>
-      <a href="#contact" onclick="toggleMenu()" class="px-3 py-2 text-sm text-zinc-300 hover:bg-zinc-900 rounded-lg">Contact</a>
-      <div class="h-px bg-zinc-800 my-1"></div>
-      <div class="flex items-center gap-2 pt-1">
-        <button onclick="copyEmail(); toggleMenu();" class="flex-1 py-2 text-xs font-medium text-center text-zinc-300 bg-zinc-900 rounded-lg border border-zinc-800">
-          Copy Email
-        </button>
-        <a href="mailto:soulcodesmith@gmail.com?subject=Resume%20Request%20-%20SURAJ" class="flex-1 py-2 text-xs font-medium text-center text-zinc-950 bg-zinc-100 rounded-lg">
-          Get Resume
-        </a>
-      </div>
     </div>
   </header>
 
-  <!-- Main Container -->
-  <main class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 w-full space-y-24 sm:space-y-32 pt-12 pb-24">
+  <!-- ==================== 2. MONUMENTAL HERO SECTION (AURA BLUEPRINT) ==================== -->
+  <section id="hero" class="relative min-h-screen w-full flex flex-col justify-between pt-28 lg:pt-36 pb-12 px-4 sm:px-6 lg:px-12 overflow-hidden border-b border-black/10 dark:border-white/10">
+    
+    <!-- Giant Monumental Headline -->
+    <div class="w-full text-center lg:text-left select-none overflow-hidden">
+      <h1 id="hero-title-top" class="text-[10vw] sm:text-[11vw] lg:text-[9.8rem] xl:text-[11.2rem] font-black tracking-[-0.04em] lg:tracking-[-0.05em] leading-[0.88] lg:leading-[0.82] uppercase text-black dark:text-white sofia-bold transition-colors will-change-transform whitespace-nowrap">
+        MACHINE LEARNING
+      </h1>
+    </div>
 
-    <!-- ==================== 2. HERO SECTION ==================== -->
-    <section id="hero" class="pt-8 sm:pt-16 pb-4">
-      <div class="flex flex-col items-start gap-6 max-w-3xl">
+    <!-- Middle Composition: Overlapping Portrait + ENGINEER + Tags -->
+    <div class="relative w-full my-auto py-4 lg:py-0 flex flex-col lg:flex-row items-center justify-between">
+      
+      <!-- Left Category Tags (Desktop) -->
+      <div id="hero-left-tags" class="hidden lg:flex flex-col items-start gap-2 text-base lg:text-xl font-mono uppercase tracking-tight text-black/90 dark:text-white/90 z-20 transition-colors will-change-transform">
+        <span class="hover:translate-x-1.5 transition-transform cursor-default">/ FIRST-PRINCIPLES AUTOGRAD</span>
+        <span class="hover:translate-x-1.5 transition-transform cursor-default">/ PYTORCH &amp; CHARACTER LMS</span>
+        <span class="hover:translate-x-1.5 transition-transform cursor-default">/ SYSTEMS (C99 &amp; POSIX)</span>
+        <span class="hover:translate-x-1.5 transition-transform cursor-default">/ MATHEMATICS FOR ML</span>
+      </div>
+
+      <!-- Center Portrait Container Overlapping Giant Text -->
+      <div id="hero-portrait-card" class="relative z-10 my-4 lg:my-0 flex flex-col items-center will-change-transform">
         
-        <!-- Live Status Pill Badge -->
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-900/90 border border-white/10 text-xs font-medium text-zinc-300 shadow-sm backdrop-blur-md">
-          <span class="relative flex h-2 w-2">
-            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-          </span>
-          <span>1st Year B.Tech Student</span>
-          <span class="text-zinc-600">•</span>
-          <span class="text-zinc-400">JECRC University</span>
-          <span class="hidden sm:inline text-zinc-600">•</span>
-          <span class="hidden sm:inline text-zinc-400">Open to Collaborations</span>
-        </div>
+        <!-- Continuous Ambient Breathing Aura Glow behind Portrait -->
+        <div class="absolute -inset-4 sm:-inset-8 rounded-[2rem] bg-gradient-to-tr from-zinc-300 via-zinc-400 to-zinc-300 dark:from-white/20 dark:via-blue-500/15 dark:to-cyan-400/10 blur-2xl opacity-70 aura-glow pointer-events-none -z-10"></div>
 
-        <!-- Hero Headline -->
-        <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-zinc-100 leading-[1.12]">
-          Crafting software from <br class="hidden sm:block" />
-          <span class="bg-gradient-to-r from-white via-zinc-200 to-zinc-500 bg-clip-text text-transparent">first principles</span> &amp; exploring modern computing.
-        </h1>
-
-        <!-- 2-Sentence Focused Bio -->
-        <p class="text-base sm:text-lg text-zinc-400 font-normal leading-relaxed max-w-2xl">
-          I am a 1st-year Computer Science undergraduate at <strong class="text-zinc-200 font-medium">JECRC University</strong> passionate about core algorithms, clean system design, and disciplined digital workflows. Built as part of my <strong class="text-zinc-200 font-medium">Digital Literacy</strong> curriculum to establish a transparent, verified engineering footprint.
-        </p>
-
-        <!-- CTA Buttons -->
-        <div class="flex flex-wrap items-center gap-3 pt-2 w-full sm:w-auto">
-          <a href="#projects" class="inline-flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-semibold text-zinc-950 bg-zinc-100 hover:bg-white rounded-xl shadow-[0_0_20px_rgba(255,255,255,0.15)] hover:shadow-[0_0_25px_rgba(255,255,255,0.3)] transition-all duration-200 w-full sm:w-auto">
-            <span>Explore Projects</span>
-            <i data-lucide="arrow-right" class="w-4 h-4"></i>
-          </a>
-          <a href="#contact" class="inline-flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-medium text-zinc-300 hover:text-white bg-zinc-900/80 hover:bg-zinc-800/80 border border-white/10 hover:border-zinc-500/50 rounded-xl transition-all duration-200 w-full sm:w-auto">
-            <i data-lucide="mail" class="w-4 h-4"></i>
-            <span>Get in Touch</span>
-          </a>
-        </div>
-
-        <!-- Social Quick Links & Verification Meta -->
-        <!-- CUSTOMIZE YOUR LINKS: Replace the href values below with your real URLs -->
-        <div class="flex flex-wrap items-center gap-4 pt-4 text-xs text-zinc-500 border-t border-white/[0.06] w-full">
-          <span class="font-mono text-zinc-400">CONNECT:</span>
+        <!-- Portrait Box -->
+        <div class="relative w-64 sm:w-80 lg:w-[22rem] aspect-[4/5] bg-zinc-200 dark:bg-zinc-900 border border-black/15 dark:border-white/20 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.25)] dark:shadow-[0_25px_60px_-15px_rgba(255,255,255,0.05)] overflow-hidden group">
+          <img 
+            src="assets/profile.png" 
+            alt="SURAJ — Machine Learning Engineer" 
+            class="w-full h-full object-cover object-top grayscale contrast-125 group-hover:scale-105 transition-transform duration-700 ease-out"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none"></div>
           
-          <!-- GitHub Profile -->
-          <a href="https://github.com/soulcodesmith" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-zinc-400 hover:text-zinc-100 transition-colors" title="GitHub Profile">
-            <i data-lucide="github" class="w-4 h-4"></i>
-            <span>GitHub</span>
-          </a>
-
-          <!-- LinkedIn: Replace 'https://linkedin.com' with your profile, e.g., 'https://linkedin.com/in/your-username' -->
-          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-zinc-400 hover:text-zinc-100 transition-colors" title="LinkedIn Profile">
-            <i data-lucide="linkedin" class="w-4 h-4"></i>
-            <span>LinkedIn</span>
-          </a>
-
-          <!-- X (Twitter): Replace 'https://x.com' with your profile, e.g., 'https://x.com/your-username' -->
-          <a href="https://x.com" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-zinc-400 hover:text-zinc-100 transition-colors" title="X Profile">
-            <i data-lucide="twitter" class="w-4 h-4"></i>
-            <span>X (Twitter)</span>
-          </a>
-
-          <!-- Direct Email (Pre-configured to soulcodesmith@gmail.com) -->
-          <a href="mailto:soulcodesmith@gmail.com" class="inline-flex items-center gap-1.5 text-zinc-400 hover:text-zinc-100 transition-colors" title="Send Email">
-            <i data-lucide="send" class="w-4 h-4"></i>
-            <span class="font-mono">soulcodesmith@gmail.com</span>
-          </a>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ==================== ABOUT & CONTEXT STRIP ==================== -->
-    <section id="about" class="relative">
-      <div class="rounded-3xl border border-white/[0.08] bg-zinc-950/60 p-6 sm:p-8 backdrop-blur-md shadow-2xl relative overflow-hidden">
-        
-        <!-- Corner watermark -->
-        <div class="absolute -right-8 -bottom-8 font-mono text-[120px] font-extrabold text-white/[0.015] select-none pointer-events-none">
-          B.TECH
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div class="space-y-2">
-            <div class="text-xs font-mono uppercase tracking-widest text-zinc-500">Academic Standing</div>
-            <div class="text-xl font-bold text-zinc-100">B.Tech in CSE</div>
-            <p class="text-xs text-zinc-400 leading-relaxed">
-              JECRC University • Department of Computer Science &amp; Engineering. Semester 1 (Batch of 2026–2030).
-            </p>
-          </div>
-
-          <div class="space-y-2">
-            <div class="text-xs font-mono uppercase tracking-widest text-zinc-500">Academic Objective</div>
-            <div class="text-xl font-bold text-zinc-100">Digital Literacy Mastery</div>
-            <p class="text-xs text-zinc-400 leading-relaxed">
-              Demonstrating full competency in digital ethics, internet protocols, shell environments, and technical writing.
-            </p>
-          </div>
-
-          <div class="space-y-2">
-            <div class="text-xs font-mono uppercase tracking-widest text-zinc-500">Engineering Philosophy</div>
-            <div class="text-xl font-bold text-zinc-100">Zero Black Boxes</div>
-            <p class="text-xs text-zinc-400 leading-relaxed">
-              Understanding memory layout, pointers, and network packets before adopting high-level abstractions.
-            </p>
+          <!-- Bottom card label -->
+          <div class="absolute bottom-3 left-3 right-3 flex items-center justify-between text-[11px] font-mono uppercase tracking-wider text-white bg-black/80 dark:bg-black/90 px-3 py-1.5 backdrop-blur-sm border border-white/10">
+            <span>SURAJ</span>
+            <span>B.TECH CSE '26</span>
           </div>
         </div>
-      </div>
-    </section>
 
-    <!-- ==================== 3. DIGITAL LITERACY & CORE SKILLS (BENTO GRID) ==================== -->
-    <section id="skills" class="space-y-8">
-      
-      <!-- Section Header -->
-      <div class="space-y-2">
-        <div class="inline-flex items-center gap-1.5 text-xs font-mono tracking-wider uppercase text-emerald-400/90">
-          <i data-lucide="cpu" class="w-3.5 h-3.5"></i>
-          <span>Competency Matrix</span>
-        </div>
-        <h2 class="text-3xl font-bold tracking-tight text-zinc-100">
-          Digital Literacy &amp; Core Technical Skills
-        </h2>
-        <p class="text-sm text-zinc-400 max-w-xl">
-          An honest, verified inventory of technologies, tools, and computer science concepts I actively practice and can defend in technical interviews.
+        <!-- Spaced Location Indicator (from Blueprint Screenshot 1) -->
+        <p class="text-xs sm:text-sm font-mono tracking-[12px] sm:tracking-[18px] uppercase text-black/80 dark:text-white/80 mt-4 text-center transition-colors">
+          IN JAIPUR, INDIA
         </p>
       </div>
 
-      <!-- Bento Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
-
-        <!-- Card 1: Programming & Scripting (Span 7) -->
-        <div class="md:col-span-7 rounded-2xl border border-white/[0.08] bg-zinc-950/70 p-6 backdrop-blur-md hover-glow transition-all duration-300 flex flex-col justify-between">
-          <div class="space-y-4">
-            <div class="flex items-center justify-between">
-              <div class="flex items-center gap-2.5">
-                <div class="p-2 rounded-xl bg-zinc-900 border border-white/10 text-zinc-200">
-                  <i data-lucide="code-2" class="w-5 h-5"></i>
-                </div>
-                <div>
-                  <h3 class="text-base font-semibold text-zinc-100">Programming &amp; Scripting</h3>
-                  <p class="text-xs text-zinc-500">Foundational syntax, structured programming, &amp; data structures</p>
-                </div>
-              </div>
-              <span class="text-[11px] font-mono px-2 py-0.5 rounded-full bg-zinc-900 border border-zinc-700/60 text-zinc-400">Active Focus</span>
-            </div>
-
-            <p class="text-xs text-zinc-400 leading-relaxed">
-              Writing clean, deterministic logic. Strong emphasis on procedural memory models in C/C++, object-oriented patterns, and rapid scripting with Python.
-            </p>
-
-            <!-- Skill Badges -->
-            <div class="flex flex-wrap gap-2 pt-2">
-              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-zinc-900/90 border border-zinc-800 text-xs font-medium text-zinc-200">
-                <span class="w-1.5 h-1.5 rounded-full bg-yellow-400"></span> Python 3
-              </span>
-              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-zinc-900/90 border border-zinc-800 text-xs font-medium text-zinc-200">
-                <span class="w-1.5 h-1.5 rounded-full bg-blue-400"></span> C (ANSI/C99)
-              </span>
-              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-zinc-900/90 border border-zinc-800 text-xs font-medium text-zinc-200">
-                <span class="w-1.5 h-1.5 rounded-full bg-indigo-400"></span> C++ Basics
-              </span>
-              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-zinc-900/90 border border-zinc-800 text-xs font-medium text-zinc-200">
-                <span class="w-1.5 h-1.5 rounded-full bg-orange-400"></span> HTML5 / Semantic Web
-              </span>
-              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-zinc-900/90 border border-zinc-800 text-xs font-medium text-zinc-200">
-                <span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span> CSS3 &amp; Tailwind CSS
-              </span>
-              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-zinc-900/90 border border-zinc-800 text-xs font-medium text-zinc-200">
-                <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span> JavaScript (ES6+)
-              </span>
-            </div>
-          </div>
-
-          <!-- Mini Code Syntax preview -->
-          <div class="mt-6 p-3 rounded-xl bg-black/60 border border-white/[0.06] font-mono text-[11px] text-zinc-400 overflow-x-auto">
-            <div class="flex items-center gap-1.5 pb-2 mb-2 border-b border-zinc-800/80 text-zinc-500 text-[10px]">
-              <span class="w-2 h-2 rounded-full bg-red-500/80"></span>
-              <span class="w-2 h-2 rounded-full bg-yellow-500/80"></span>
-              <span class="w-2 h-2 rounded-full bg-green-500/80"></span>
-              <span class="ml-2">first_principles.c</span>
-            </div>
-            <span class="text-purple-400">#include</span> <span class="text-emerald-300">&lt;stdio.h&gt;</span><br/>
-            <span class="text-blue-400">int</span> <span class="text-yellow-300">main</span>() {<br/>
-            &nbsp;&nbsp;<span class="text-zinc-500">// Mastering pointers, stack/heap &amp; execution flow</span><br/>
-            &nbsp;&nbsp;printf(<span class="text-emerald-300">"Engineered at JECRC University\n"</span>);<br/>
-            &nbsp;&nbsp;<span class="text-purple-400">return</span> <span class="text-orange-400">0</span>;<br/>
-            }
-          </div>
-        </div>
-
-        <!-- Card 2: Digital Literacy & Developer Workflow (Span 5) -->
-        <div class="md:col-span-5 rounded-2xl border border-white/[0.08] bg-zinc-950/70 p-6 backdrop-blur-md hover-glow transition-all duration-300 flex flex-col justify-between">
-          <div class="space-y-4">
-            <div class="flex items-center gap-2.5">
-              <div class="p-2 rounded-xl bg-zinc-900 border border-white/10 text-zinc-200">
-                <i data-lucide="terminal" class="w-5 h-5"></i>
-              </div>
-              <div>
-                <h3 class="text-base font-semibold text-zinc-100">Digital Tools &amp; Workflow</h3>
-                <p class="text-xs text-zinc-500">Developer productivity &amp; environment</p>
-              </div>
-            </div>
-
-            <p class="text-xs text-zinc-400 leading-relaxed">
-              Modern workflow literacy: version control discipline, clean commit habits, terminal efficiency, and formatted engineering docs.
-            </p>
-
-            <ul class="space-y-2.5 text-xs text-zinc-300 pt-1">
-              <li class="flex items-center gap-2">
-                <i data-lucide="check" class="w-4 h-4 text-emerald-400 shrink-0"></i>
-                <span><strong>Git &amp; GitHub:</strong> Commits, branches, PRs &amp; remote sync</span>
-              </li>
-              <li class="flex items-center gap-2">
-                <i data-lucide="check" class="w-4 h-4 text-emerald-400 shrink-0"></i>
-                <span><strong>Linux &amp; Shell:</strong> Bash, piping, file system navigation</span>
-              </li>
-              <li class="flex items-center gap-2">
-                <i data-lucide="check" class="w-4 h-4 text-emerald-400 shrink-0"></i>
-                <span><strong>Markdown &amp; Obsidian:</strong> Second brain, networked notes</span>
-              </li>
-              <li class="flex items-center gap-2">
-                <i data-lucide="check" class="w-4 h-4 text-emerald-400 shrink-0"></i>
-                <span><strong>LaTeX &amp; Docs:</strong> Formatted academic reports &amp; math specs</span>
-              </li>
-              <li class="flex items-center gap-2">
-                <i data-lucide="check" class="w-4 h-4 text-emerald-400 shrink-0"></i>
-                <span><strong>Office &amp; Workspace:</strong> Excel / Google Sheets data analysis</span>
-              </li>
-            </ul>
-          </div>
-
-          <div class="mt-4 pt-3 border-t border-white/[0.06] flex items-center justify-between text-[11px] text-zinc-500 font-mono">
-            <span>CLI-FIRST ENVIRONMENT</span>
-            <span class="text-zinc-400">ZSH / BASH</span>
-          </div>
-        </div>
-
-        <!-- Card 3: Foundational Competencies (Span 6) -->
-        <div class="md:col-span-6 rounded-2xl border border-white/[0.08] bg-zinc-950/70 p-6 backdrop-blur-md hover-glow transition-all duration-300">
-          <div class="flex items-center gap-2.5 mb-4">
-            <div class="p-2 rounded-xl bg-zinc-900 border border-white/10 text-zinc-200">
-              <i data-lucide="layers" class="w-5 h-5"></i>
-            </div>
-            <div>
-              <h3 class="text-base font-semibold text-zinc-100">Foundational Computing</h3>
-              <p class="text-xs text-zinc-500">Core architecture, theory, &amp; data handling</p>
-            </div>
-          </div>
-
-          <div class="grid grid-cols-2 gap-3 pt-1">
-            <div class="p-3 rounded-xl bg-zinc-900/60 border border-white/[0.04]">
-              <div class="text-xs font-semibold text-zinc-200 flex items-center gap-1.5">
-                <i data-lucide="binary" class="w-3.5 h-3.5 text-indigo-400"></i>
-                Data Representation
-              </div>
-              <p class="text-[11px] text-zinc-400 mt-1 leading-snug">
-                Binary, hexadecimal, two’s complement, IEEE 754 floating point, ASCII &amp; UTF-8 encodings.
-              </p>
-            </div>
-
-            <div class="p-3 rounded-xl bg-zinc-900/60 border border-white/[0.04]">
-              <div class="text-xs font-semibold text-zinc-200 flex items-center gap-1.5">
-                <i data-lucide="globe" class="w-3.5 h-3.5 text-sky-400"></i>
-                Internet Architecture
-              </div>
-              <p class="text-[11px] text-zinc-400 mt-1 leading-snug">
-                DNS resolution, TCP/IP vs UDP, HTTP/HTTPS request-response lifecycle, client-server models.
-              </p>
-            </div>
-
-            <div class="p-3 rounded-xl bg-zinc-900/60 border border-white/[0.04]">
-              <div class="text-xs font-semibold text-zinc-200 flex items-center gap-1.5">
-                <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-400"></i>
-                Digital Ethics &amp; Privacy
-              </div>
-              <p class="text-[11px] text-zinc-400 mt-1 leading-snug">
-                Cyber hygiene, symmetric vs asymmetric encryption, password security, intellectual property.
-              </p>
-            </div>
-
-            <div class="p-3 rounded-xl bg-zinc-900/60 border border-white/[0.04]">
-              <div class="text-xs font-semibold text-zinc-200 flex items-center gap-1.5">
-                <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-400"></i>
-                Algorithmic Thinking
-              </div>
-              <p class="text-[11px] text-zinc-400 mt-1 leading-snug">
-                Pseudocode formulation, recursion, sorting/searching analysis, Big-O complexity awareness.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Card 4: Hardware & Lab Environments (Span 6) -->
-        <div class="md:col-span-6 rounded-2xl border border-white/[0.08] bg-zinc-950/70 p-6 backdrop-blur-md hover-glow transition-all duration-300 flex flex-col justify-between">
-          <div class="space-y-4">
-            <div class="flex items-center gap-2.5">
-              <div class="p-2 rounded-xl bg-zinc-900 border border-white/10 text-zinc-200">
-                <i data-lucide="hard-drive" class="w-5 h-5"></i>
-              </div>
-              <div>
-                <h3 class="text-base font-semibold text-zinc-100">Lab &amp; System Competency</h3>
-                <p class="text-xs text-zinc-500">Hands-on college curriculum &amp; diagnostics</p>
-              </div>
-            </div>
-
-            <p class="text-xs text-zinc-400 leading-relaxed">
-              Demonstrated ability to configure development environments, troubleshoot build tools (gcc, clang, python venv), configure SSH keys, and structure reproducible engineering repositories.
-            </p>
-
-            <div class="flex flex-wrap gap-2 pt-1">
-              <span class="px-2.5 py-1 rounded-md bg-zinc-900 border border-zinc-800 text-[11px] font-mono text-zinc-300">VS Code &amp; Extensions</span>
-              <span class="px-2.5 py-1 rounded-md bg-zinc-900 border border-zinc-800 text-[11px] font-mono text-zinc-300">GCC Compiler</span>
-              <span class="px-2.5 py-1 rounded-md bg-zinc-900 border border-zinc-800 text-[11px] font-mono text-zinc-300">Vim / Nano</span>
-              <span class="px-2.5 py-1 rounded-md bg-zinc-900 border border-zinc-800 text-[11px] font-mono text-zinc-300">Virtualization / WSL</span>
-              <span class="px-2.5 py-1 rounded-md bg-zinc-900 border border-zinc-800 text-[11px] font-mono text-zinc-300">Jupyter Notebooks</span>
-            </div>
-          </div>
-
-          <div class="mt-4 pt-3 border-t border-white/[0.06] flex items-center justify-between text-[11px] text-zinc-500">
-            <span>Verified Coursework Module</span>
-            <span class="text-emerald-400 font-mono">100% Academic Integrity</span>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ==================== 4. FEATURED PROJECTS & COURSEWORK ==================== -->
-    <section id="projects" class="space-y-8">
-      
-      <!-- Section Header -->
-      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-        <div class="space-y-2">
-          <div class="inline-flex items-center gap-1.5 text-xs font-mono tracking-wider uppercase text-emerald-400/90">
-            <i data-lucide="folder-git-2" class="w-3.5 h-3.5"></i>
-            <span>Engineering Showcase</span>
-          </div>
-          <h2 class="text-3xl font-bold tracking-tight text-zinc-100">
-            Featured Projects &amp; Lab Work
-          </h2>
-          <p class="text-sm text-zinc-400 max-w-xl">
-            Selected projects demonstrating first-principles problem solving, systems understanding, and clean documentation.
-          </p>
-        </div>
-
-        <a href="https://github.com/soulcodesmith" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-xs font-medium text-zinc-400 hover:text-zinc-100 transition-colors">
-          <span>View all repositories on GitHub</span>
-          <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
-        </a>
-      </div>
-
-      <!-- Project Cards Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-        <!-- Project 1: Micrograd-Plus-Plus -->
-        <article class="group rounded-2xl border border-white/[0.08] bg-zinc-950/70 p-6 backdrop-blur-md hover-glow transition-all duration-300 flex flex-col justify-between">
-          <div class="space-y-4">
-            <!-- Header with tag & icon -->
-            <div class="flex items-center justify-between">
-              <span class="text-[11px] font-mono text-emerald-400 bg-emerald-950/50 border border-emerald-800/50 px-2 py-0.5 rounded-full">
-                Autograd • Deep Learning
-              </span>
-              <div class="p-2 rounded-lg bg-zinc-900 border border-white/10 text-zinc-400 group-hover:text-zinc-100 transition-colors">
-                <i data-lucide="binary" class="w-4 h-4"></i>
-              </div>
-            </div>
-
-            <!-- Title & Description -->
-            <div>
-              <h3 class="text-lg font-semibold text-zinc-100 group-hover:text-white transition-colors">
-                Micrograd-Plus-Plus: Scalar Autograd Engine
-              </h3>
-              <p class="text-xs text-zinc-400 mt-2 leading-relaxed">
-                A custom scalar-valued autograd engine extending Karpathy's micrograd, built entirely from scratch. Implements automatic backpropagation over dynamically constructed DAG computation graphs.
-              </p>
-            </div>
-
-            <!-- Tech Pills -->
-            <div class="flex flex-wrap gap-1.5 pt-1">
-              <span class="px-2 py-0.5 rounded-md bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-300">Python 3</span>
-              <span class="px-2 py-0.5 rounded-md bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-300">DAG Graph</span>
-              <span class="px-2 py-0.5 rounded-md bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-300">Calculus / Backprop</span>
-              <span class="px-2 py-0.5 rounded-md bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-300">First-Principles</span>
-            </div>
-          </div>
-
-          <!-- Action Buttons -->
-          <div class="flex items-center gap-2 pt-6 mt-6 border-t border-white/[0.06]">
-            <a href="https://github.com/soulcodesmith/Micrograd-Plus-Plus" target="_blank" rel="noopener noreferrer" class="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-medium text-zinc-300 hover:text-white bg-zinc-900 hover:bg-zinc-800 border border-white/10 rounded-xl transition-all">
-              <i data-lucide="github" class="w-3.5 h-3.5"></i>
-              <span>Source Code</span>
-            </a>
-            <button onclick="openModal('project1')" class="inline-flex items-center justify-center p-2 text-xs font-medium text-zinc-400 hover:text-white bg-zinc-900/60 hover:bg-zinc-800 border border-white/10 rounded-xl transition-all" title="View details">
-              <i data-lucide="eye" class="w-4 h-4"></i>
-            </button>
-          </div>
-        </article>
-
-        <!-- Project 2: Digital Literacy Guide -->
-        <article class="group rounded-2xl border border-white/[0.08] bg-zinc-950/70 p-6 backdrop-blur-md hover-glow transition-all duration-300 flex flex-col justify-between">
-          <div class="space-y-4">
-            <!-- Header with tag & icon -->
-            <div class="flex items-center justify-between">
-              <span class="text-[11px] font-mono text-sky-400 bg-sky-950/50 border border-sky-800/50 px-2 py-0.5 rounded-full">
-                Web Architecture • Coursework
-              </span>
-              <div class="p-2 rounded-lg bg-zinc-900 border border-white/10 text-zinc-400 group-hover:text-zinc-100 transition-colors">
-                <i data-lucide="globe" class="w-4 h-4"></i>
-              </div>
-            </div>
-
-            <!-- Title & Description -->
-            <div>
-              <h3 class="text-lg font-semibold text-zinc-100 group-hover:text-white transition-colors">
-                NetByte: Digital Literacy &amp; Protocols Portal
-              </h3>
-              <p class="text-xs text-zinc-400 mt-2 leading-relaxed">
-                An interactive web-based knowledge repository designed for college peers, dissecting DNS resolution steps, client-server handshake, data encryption fundamentals, and cyber hygiene practices.
-              </p>
-            </div>
-
-            <!-- Tech Pills -->
-            <div class="flex flex-wrap gap-1.5 pt-1">
-              <span class="px-2 py-0.5 rounded-md bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-300">HTML5 Semantic</span>
-              <span class="px-2 py-0.5 rounded-md bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-300">CSS3 / Tailwind</span>
-              <span class="px-2 py-0.5 rounded-md bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-300">JavaScript</span>
-              <span class="px-2 py-0.5 rounded-md bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-300">Network Protocols</span>
-            </div>
-          </div>
-
-          <!-- Action Buttons -->
-          <div class="flex items-center gap-2 pt-6 mt-6 border-t border-white/[0.06]">
-            <a href="https://github.com/soulcodesmith/digital-literacy-portfolio" target="_blank" rel="noopener noreferrer" class="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-medium text-zinc-300 hover:text-white bg-zinc-900 hover:bg-zinc-800 border border-white/10 rounded-xl transition-all">
-              <i data-lucide="github" class="w-3.5 h-3.5"></i>
-              <span>Source Code</span>
-            </a>
-            <a href="#hero" class="inline-flex items-center justify-center gap-1 px-3 py-2 text-xs font-medium text-zinc-950 bg-zinc-100 hover:bg-white rounded-xl transition-all" title="Live Preview">
-              <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
-              <span>Live Site</span>
-            </a>
-          </div>
-        </article>
-
-        <!-- Project 3: C/POSIX CLI Utility -->
-        <article class="group rounded-2xl border border-white/[0.08] bg-zinc-950/70 p-6 backdrop-blur-md hover-glow transition-all duration-300 flex flex-col justify-between">
-          <div class="space-y-4">
-            <!-- Header with tag & icon -->
-            <div class="flex items-center justify-between">
-              <span class="text-[11px] font-mono text-indigo-400 bg-indigo-950/50 border border-indigo-800/50 px-2 py-0.5 rounded-full">
-                C • Unix Systems
-              </span>
-              <div class="p-2 rounded-lg bg-zinc-900 border border-white/10 text-zinc-400 group-hover:text-zinc-100 transition-colors">
-                <i data-lucide="terminal-square" class="w-4 h-4"></i>
-              </div>
-            </div>
-
-            <!-- Title & Description -->
-            <div>
-              <h3 class="text-lg font-semibold text-zinc-100 group-hover:text-white transition-colors">
-                SysProbe: Lightweight POSIX Resource Monitor
-              </h3>
-              <p class="text-xs text-zinc-400 mt-2 leading-relaxed">
-                A minimalist terminal diagnostic tool programmed in C that parses Linux `/proc` filesystems to output CPU load, RAM allocation, and active process metrics with zero external overhead.
-              </p>
-            </div>
-
-            <!-- Tech Pills -->
-            <div class="flex flex-wrap gap-1.5 pt-1">
-              <span class="px-2 py-0.5 rounded-md bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-300">C Language</span>
-              <span class="px-2 py-0.5 rounded-md bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-300">POSIX File APIs</span>
-              <span class="px-2 py-0.5 rounded-md bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-300">Linux /proc</span>
-              <span class="px-2 py-0.5 rounded-md bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-300">GCC Toolchain</span>
-            </div>
-          </div>
-
-          <!-- Action Buttons -->
-          <div class="flex items-center gap-2 pt-6 mt-6 border-t border-white/[0.06]">
-            <a href="https://github.com/soulcodesmith/digital-literacy-portfolio" target="_blank" rel="noopener noreferrer" class="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-medium text-zinc-300 hover:text-white bg-zinc-900 hover:bg-zinc-800 border border-white/10 rounded-xl transition-all">
-              <i data-lucide="github" class="w-3.5 h-3.5"></i>
-              <span>Source Code</span>
-            </a>
-            <button onclick="openModal('project3')" class="inline-flex items-center justify-center p-2 text-xs font-medium text-zinc-400 hover:text-white bg-zinc-900/60 hover:bg-zinc-800 border border-white/10 rounded-xl transition-all" title="View details">
-              <i data-lucide="eye" class="w-4 h-4"></i>
-            </button>
-          </div>
-        </article>
-
-      </div>
-    </section>
-
-    <!-- ==================== 5. ACADEMIC JOURNEY & MILESTONES ==================== -->
-    <section id="coursework" class="space-y-8">
-      
-      <!-- Section Header -->
-      <div class="space-y-2">
-        <div class="inline-flex items-center gap-1.5 text-xs font-mono tracking-wider uppercase text-emerald-400/90">
-          <i data-lucide="graduation-cap" class="w-3.5 h-3.5"></i>
-          <span>Academic Progression</span>
-        </div>
-        <h2 class="text-3xl font-bold tracking-tight text-zinc-100">
-          Curriculum &amp; Milestones at JECRC University
+      <!-- Right Sub-Headline: ENGINEER -->
+      <div class="w-full lg:w-auto text-center lg:text-right select-none z-0 overflow-hidden">
+        <h2 id="hero-title-oper" class="text-[14vw] sm:text-[15vw] lg:text-[10.5rem] xl:text-[12rem] font-black tracking-[-0.04em] lg:tracking-[-0.05em] leading-[0.82] uppercase text-black dark:text-white sofia-bold transition-colors will-change-transform">
+          ENGINEER
         </h2>
-        <p class="text-sm text-zinc-400 max-w-xl">
-          Tracking core engineering coursework, laboratory achievements, and foundational competencies in progress.
-        </p>
       </div>
 
-      <!-- Vertical Timeline -->
-      <div class="relative pl-6 sm:pl-8 border-l border-zinc-800 space-y-10">
+    </div>
 
-        <!-- Milestone 1 (Current Primary) -->
-        <div class="relative group">
-          <!-- Timeline Node Dot -->
-          <div class="absolute -left-[31px] sm:-left-[39px] top-1.5 w-4 h-4 rounded-full bg-zinc-950 border-2 border-emerald-400 flex items-center justify-center">
-            <div class="w-1.5 h-1.5 rounded-full bg-emerald-400"></div>
-          </div>
-
-          <div class="rounded-2xl border border-white/[0.08] bg-zinc-950/70 p-5 sm:p-6 backdrop-blur-md hover:border-zinc-700/80 transition-all">
-            <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
-              <span class="text-xs font-mono text-emerald-400 font-semibold">SEMESTER 1 • CURRENT COURSE</span>
-              <span class="text-[11px] font-mono text-zinc-500">JECRC University • 2026</span>
-            </div>
-            <h3 class="text-lg font-bold text-zinc-100">Digital Literacy &amp; Applied Computing</h3>
-            <p class="text-xs sm:text-sm text-zinc-400 mt-2 leading-relaxed">
-              In-depth coverage of contemporary digital tools, internet protocols, cloud collaboration, data security, and creating verified web artifacts. Submission of this live portfolio constitutes the capstone digital presence requirement.
-            </p>
-            <div class="mt-4 flex flex-wrap gap-2">
-              <span class="px-2 py-0.5 rounded bg-zinc-900 text-[11px] text-zinc-300 font-mono">Web Publishing</span>
-              <span class="px-2 py-0.5 rounded bg-zinc-900 text-[11px] text-zinc-300 font-mono">Cyber Hygiene</span>
-              <span class="px-2 py-0.5 rounded bg-zinc-900 text-[11px] text-zinc-300 font-mono">Open Source Ethics</span>
-              <span class="px-2 py-0.5 rounded bg-zinc-900 text-[11px] text-zinc-300 font-mono">Technical Documentation</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Milestone 2 -->
-        <div class="relative group">
-          <!-- Timeline Node Dot -->
-          <div class="absolute -left-[31px] sm:-left-[39px] top-1.5 w-4 h-4 rounded-full bg-zinc-950 border-2 border-indigo-400 flex items-center justify-center">
-            <div class="w-1.5 h-1.5 rounded-full bg-indigo-400"></div>
-          </div>
-
-          <div class="rounded-2xl border border-white/[0.08] bg-zinc-950/70 p-5 sm:p-6 backdrop-blur-md hover:border-zinc-700/80 transition-all">
-            <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
-              <span class="text-xs font-mono text-indigo-400 font-semibold">CORE PROGRAMMING LAB</span>
-              <span class="text-[11px] font-mono text-zinc-500">JECRC University</span>
-            </div>
-            <h3 class="text-lg font-bold text-zinc-100">Computer Programming (C &amp; Python)</h3>
-            <p class="text-xs sm:text-sm text-zinc-400 mt-2 leading-relaxed">
-              Rigorous laboratory experiments covering pointers, dynamic memory allocation (`malloc`, `free`), standard library functions, recursion, and file input/output streams.
-            </p>
-            <div class="mt-4 flex flex-wrap gap-2">
-              <span class="px-2 py-0.5 rounded bg-zinc-900 text-[11px] text-zinc-300 font-mono">Memory Allocation</span>
-              <span class="px-2 py-0.5 rounded bg-zinc-900 text-[11px] text-zinc-300 font-mono">Pointers &amp; References</span>
-              <span class="px-2 py-0.5 rounded bg-zinc-900 text-[11px] text-zinc-300 font-mono">Algorithm Design</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Milestone 3 -->
-        <div class="relative group">
-          <!-- Timeline Node Dot -->
-          <div class="absolute -left-[31px] sm:-left-[39px] top-1.5 w-4 h-4 rounded-full bg-zinc-950 border-2 border-zinc-600 flex items-center justify-center">
-            <div class="w-1.5 h-1.5 rounded-full bg-zinc-600"></div>
-          </div>
-
-          <div class="rounded-2xl border border-white/[0.08] bg-zinc-950/70 p-5 sm:p-6 backdrop-blur-md hover:border-zinc-700/80 transition-all">
-            <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
-              <span class="text-xs font-mono text-zinc-400 font-semibold">THEORETICAL FOUNDATION</span>
-              <span class="text-[11px] font-mono text-zinc-500">JECRC University</span>
-            </div>
-            <h3 class="text-lg font-bold text-zinc-100">Engineering Mathematics &amp; Digital Logic</h3>
-            <p class="text-xs sm:text-sm text-zinc-400 mt-2 leading-relaxed">
-              Boolean algebra, Karnaugh mapping, logic gate simplification, matrix transformations, and discrete structures that form the basis of modern computer architecture.
-            </p>
-            <div class="mt-4 flex flex-wrap gap-2">
-              <span class="px-2 py-0.5 rounded bg-zinc-900 text-[11px] text-zinc-300 font-mono">Boolean Algebra</span>
-              <span class="px-2 py-0.5 rounded bg-zinc-900 text-[11px] text-zinc-300 font-mono">K-Maps</span>
-              <span class="px-2 py-0.5 rounded bg-zinc-900 text-[11px] text-zinc-300 font-mono">Discrete Math</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Milestone 4: Next Roadmap -->
-        <div class="relative group opacity-80">
-          <div class="absolute -left-[31px] sm:-left-[39px] top-1.5 w-4 h-4 rounded-full bg-zinc-950 border-2 border-zinc-700 flex items-center justify-center">
-            <div class="w-1.5 h-1.5 rounded-full bg-zinc-700"></div>
-          </div>
-
-          <div class="rounded-2xl border border-white/[0.05] bg-zinc-950/40 p-5 sm:p-6 backdrop-blur-md">
-            <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
-              <span class="text-xs font-mono text-zinc-500 font-semibold">UPCOMING ROADMAP • SEMESTER 2 &amp; BEYOND</span>
-              <span class="text-[11px] font-mono text-zinc-600">2026–2027</span>
-            </div>
-            <h3 class="text-lg font-bold text-zinc-300">Data Structures, Algorithms &amp; Systems Architecture</h3>
-            <p class="text-xs sm:text-sm text-zinc-500 mt-2 leading-relaxed">
-              Targeting advanced DSA, object-oriented software engineering in C++/Java, operating systems, and computer network protocol implementations.
-            </p>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ==================== 6. FOOTER & CONTACT ==================== -->
-    <section id="contact" class="pt-8">
-      <div class="rounded-3xl border border-white/[0.08] bg-gradient-to-b from-zinc-900/60 to-zinc-950/90 p-8 sm:p-12 backdrop-blur-xl relative overflow-hidden shadow-2xl">
-        
-        <!-- Ambient subtle glow behind card -->
-        <div class="absolute top-0 right-1/4 w-80 h-80 bg-emerald-500/10 rounded-full blur-[100px] pointer-events-none"></div>
-
-        <div class="max-w-2xl space-y-6 relative z-10">
-          <div class="inline-flex items-center gap-1.5 text-xs font-mono tracking-wider uppercase text-emerald-400">
-            <i data-lucide="mail-check" class="w-3.5 h-3.5"></i>
-            <span>Ready for Opportunities</span>
-          </div>
-
-          <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-zinc-100">
-            Let's connect &amp; build something meaningful.
-          </h2>
-
-          <p class="text-sm text-zinc-400 leading-relaxed">
-            Whether you have an internship opportunity, an open-source collaboration, feedback on my Digital Literacy coursework, or want to discuss engineering fundamentals—my inbox is always open.
-          </p>
-
-          <!-- Interactive Email Copy & Mail Action -->
-          <div class="flex flex-wrap items-center gap-3 pt-2">
-            <!-- One-click copy email button -->
-            <button onclick="copyEmail()" class="inline-flex items-center gap-2 px-5 py-3 text-sm font-semibold text-zinc-950 bg-zinc-100 hover:bg-white rounded-xl shadow-lg hover:shadow-[0_0_25px_rgba(255,255,255,0.25)] transition-all duration-200">
-              <i data-lucide="copy" class="w-4 h-4"></i>
-              <span id="copy-btn-text">Copy Email: soulcodesmith@gmail.com</span>
-            </button>
-
-            <!-- Send mail link -->
-            <a href="mailto:soulcodesmith@gmail.com?subject=Hello%20SURAJ%20-%20From%20Portfolio" class="inline-flex items-center gap-2 px-5 py-3 text-sm font-medium text-zinc-300 hover:text-white bg-zinc-900/80 hover:bg-zinc-800 border border-white/10 rounded-xl transition-all duration-200">
-              <i data-lucide="send" class="w-4 h-4"></i>
-              <span>Send Email Directly</span>
-            </a>
-          </div>
-
-          <!-- Academic & Professional Details Card -->
-          <div class="pt-6 mt-6 border-t border-white/[0.08] grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
-            <div>
-              <div class="text-zinc-500 font-mono text-[10px] uppercase">Candidate</div>
-              <div class="text-zinc-200 font-medium mt-0.5">SURAJ</div>
-            </div>
-            <div>
-              <div class="text-zinc-500 font-mono text-[10px] uppercase">Institution</div>
-              <div class="text-zinc-200 font-medium mt-0.5">JECRC University, Jaipur</div>
-            </div>
-            <div>
-              <div class="text-zinc-500 font-mono text-[10px] uppercase">Course Submission</div>
-              <div class="text-zinc-200 font-medium mt-0.5">Digital Literacy (B.Tech CSE)</div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- ==================== SITE FOOTER ==================== -->
-  <footer class="relative z-10 border-t border-white/[0.08] bg-zinc-950/80 backdrop-blur-md py-8">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-500">
-      
+    <!-- Hero Footer Meta Bar -->
+    <div class="w-full pt-8 flex flex-col sm:flex-row items-center justify-between gap-6 border-t border-black/10 dark:border-white/10 text-xs font-mono uppercase tracking-wider transition-colors">
       <div class="flex items-center gap-2">
-        <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-        <span class="font-mono text-zinc-400">© 2026 SURAJ</span>
-        <span>•</span>
-        <span>Built for Digital Literacy • JECRC University</span>
+        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span class="text-black dark:text-white font-semibold">AVAILABLE FOR COLLABORATION</span>
+        <span class="text-zinc-400 dark:text-zinc-600">•</span>
+        <span id="live-clock" class="text-zinc-600 dark:text-zinc-400 font-mono">JAIPUR [ --:--:-- IST ]</span>
       </div>
 
       <div class="flex items-center gap-4">
-        <a href="#hero" class="hover:text-zinc-300 transition-colors">Back to top ↑</a>
-        <span>•</span>
-        <!-- GitHub Profile -->
-        <a href="https://github.com/soulcodesmith" target="_blank" rel="noopener noreferrer" class="hover:text-zinc-300 transition-colors">GitHub</a>
-        <span>•</span>
-        <!-- Replace with your LinkedIn profile link -->
-        <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="hover:text-zinc-300 transition-colors">LinkedIn</a>
-        <span>•</span>
-        <a href="mailto:soulcodesmith@gmail.com" class="hover:text-zinc-300 transition-colors">soulcodesmith@gmail.com</a>
+        <a href="#about" class="text-black dark:text-white hover:font-bold transition-all">ABOUT ME ↓</a>
+        <span class="text-zinc-300 dark:text-zinc-700">/</span>
+        <a href="#works" class="text-black dark:text-white hover:font-bold transition-all">RECENT WORKS ↗</a>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ==================== CONTINUOUS EDITORIAL MARQUEE TICKER ==================== -->
+  <div class="w-full overflow-hidden bg-black dark:bg-[#0c0c0e] text-white py-3.5 border-y border-black/10 dark:border-white/10 select-none transition-colors">
+    <div class="flex whitespace-nowrap animate-marquee font-mono text-xs uppercase tracking-widest text-zinc-300 dark:text-zinc-400">
+      <span class="mx-5">• FIRST-PRINCIPLES COMPUTING</span>
+      <span class="mx-5">• SCALAR AUTOGRAD ENGINE</span>
+      <span class="mx-5">• REVERSE-MODE DIFFERENTIATION</span>
+      <span class="mx-5">• PYTORCH ZERO-TO-MASTERY</span>
+      <span class="mx-5">• CHARACTER-LEVEL LANGUAGE MODELING</span>
+      <span class="mx-5">• C99 &amp; POSIX APIS</span>
+      <span class="mx-5">• LINUX /PROC TELEMETRY</span>
+      <span class="mx-5">• LINEAR ALGEBRA &amp; VECTOR CALCULUS</span>
+      <span class="mx-5">• JECRC UNIVERSITY B.TECH CSE</span>
+      <span class="mx-5">• FIRST-PRINCIPLES COMPUTING</span>
+      <span class="mx-5">• SCALAR AUTOGRAD ENGINE</span>
+      <span class="mx-5">• REVERSE-MODE DIFFERENTIATION</span>
+      <span class="mx-5">• PYTORCH ZERO-TO-MASTERY</span>
+      <span class="mx-5">• CHARACTER-LEVEL LANGUAGE MODELING</span>
+      <span class="mx-5">• C99 &amp; POSIX APIS</span>
+      <span class="mx-5">• LINUX /PROC TELEMETRY</span>
+      <span class="mx-5">• LINEAR ALGEBRA &amp; VECTOR CALCULUS</span>
+      <span class="mx-5">• JECRC UNIVERSITY B.TECH CSE</span>
+    </div>
+  </div>
+
+  <!-- ==================== 3. ABOUT ME KINETIC TYPOGRAPHY SECTION (SCREENSHOT 2 BLUEPRINT) ==================== -->
+  <section id="about" class="relative w-full py-20 lg:py-32 bg-[#f7f7f7] dark:bg-black border-b border-black/10 dark:border-white/10 overflow-hidden transition-colors">
+    
+    <!-- Top Meta Row -->
+    <div class="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-16 font-mono text-xs uppercase tracking-wider">
+      <div>
+        <div class="text-zinc-500 dark:text-zinc-400 text-[10px]">DIRECT INQUIRIES</div>
+        <a href="mailto:soulcodesmith@gmail.com" class="text-black dark:text-white font-semibold hover:underline">soulcodesmith@gmail.com</a>
+      </div>
+      <div class="text-zinc-600 dark:text-zinc-400">
+        1ST YEAR B.TECH • COMPUTER SCIENCE &amp; ENGINEERING
+      </div>
+    </div>
+
+    <!-- Iconic Warped / Staggered Kinetic Typography (ABOUT ME) -->
+    <div id="about-letters-wrap" class="w-full flex items-center justify-center my-8 lg:my-16 select-none overflow-x-auto px-4">
+      <div class="flex items-center text-7xl sm:text-9xl lg:text-[14rem] font-black tracking-[-0.04em] uppercase text-black dark:text-white sofia-bold leading-none transition-colors">
+        
+        <!-- Word 1: ABOUT -->
+        <span class="kinetic-letter transform -rotate-3 hover:-translate-y-4">A</span>
+        <span class="kinetic-letter transform rotate-2 hover:-translate-y-4">B</span>
+        <span class="kinetic-letter transform -rotate-6 hover:-translate-y-4">O</span>
+        <span class="kinetic-letter transform rotate-3 hover:-translate-y-4">U</span>
+        <span class="kinetic-letter transform -rotate-2 hover:-translate-y-4">T</span>
+
+        <!-- Spacing gap -->
+        <span class="w-6 sm:w-12 lg:w-20 inline-block"></span>
+
+        <!-- Word 2: ME -->
+        <span class="kinetic-letter transform rotate-4 hover:-translate-y-4">M</span>
+        <span class="kinetic-letter transform -rotate-3 hover:-translate-y-4">E</span>
+
+      </div>
+    </div>
+
+    <!-- Black Contrasting Manifesto Band (Exact Verified Positioning Statement) -->
+    <div id="manifesto-band" class="w-full bg-black dark:bg-[#0d0d0f] border-y border-transparent dark:border-white/15 text-white py-12 px-6 lg:px-12 mt-12 overflow-hidden shadow-xl transition-colors will-change-transform">
+      <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        
+        <div class="lg:col-span-8">
+          <div class="text-xs font-mono text-emerald-400 tracking-widest uppercase mb-3 flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            <span>CORE POSITIONING STATEMENT</span>
+          </div>
+          <h3 class="text-2xl sm:text-4xl lg:text-5xl font-black uppercase sofia-bold tracking-tight leading-[1.05]">
+            1ST-YEAR COMPUTER SCIENCE UNDERGRADUATE &amp; FIRST-PRINCIPLES ML BUILDER.
+          </h3>
+          <p class="text-xs sm:text-sm font-mono text-zinc-300 mt-4 leading-relaxed max-w-2xl">
+            Stripping away black-box abstractions to understand computing from the ground up: building scalar autograd engines with reverse-mode differentiation in pure Python, profiling Linux systems via POSIX APIs in C, and implementing deep learning architectures with mathematical rigor.
+          </p>
+        </div>
+
+        <div class="lg:col-span-4 flex lg:justify-end">
+          <div class="flex flex-col gap-2 font-mono text-xs uppercase tracking-widest text-zinc-400 border-l border-white/20 pl-6">
+            <div><span class="text-white font-bold">STATUS:</span> SEMESTER 1 (2026)</div>
+            <div><span class="text-white font-bold">FOCUS:</span> DEEP LEARNING &amp; SYSTEMS</div>
+            <div><span class="text-white font-bold">FOUNDATION:</span> MML (LINEAR ALGEBRA &amp; CALCULUS)</div>
+            <div><span class="text-white font-bold">CAMPUS:</span> JECRC UNIVERSITY</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Bottom Ticker Line -->
+      <div class="max-w-7xl mx-auto flex items-center justify-between pt-8 mt-8 border-t border-white/10 text-xs font-mono uppercase tracking-widest text-zinc-500">
+        <span>01/07</span>
+        <span>FIRST-PRINCIPLES ARCHITECTURE</span>
+        <span>VERIFIED/26</span>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ==================== 4. SELECTED WORKS & VERIFIED ARTIFACTS ==================== -->
+  <section id="works" class="w-full py-20 lg:py-28 px-6 lg:px-12 border-b border-black/10 dark:border-white/10 bg-[#f7f7f7] dark:bg-black transition-colors">
+    <div class="max-w-7xl mx-auto">
+      
+      <!-- Section Header -->
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-8 border-b border-black dark:border-white mb-12">
+        <div>
+          <span class="text-xs font-mono uppercase tracking-widest text-zinc-500 dark:text-zinc-400">PORTFOLIO REPOSITORY</span>
+          <h2 class="text-5xl sm:text-7xl font-black uppercase sofia-bold tracking-tight text-black dark:text-white mt-1">
+            SELECTED WORKS
+          </h2>
+        </div>
+        <a href="https://github.com/soulcodesmith" target="_blank" rel="noopener noreferrer" class="text-xs font-mono uppercase tracking-wider text-black dark:text-white flex items-center gap-1 hover:font-bold transition-all">
+          <span>GITHUB ARCHIVE</span>
+          <span>↗</span>
+        </a>
+      </div>
+
+      <!-- Projects Grid / List -->
+      <div class="divide-y divide-black/10 dark:divide-white/10">
+
+        <!-- Project 01: Micrograd++ -->
+        <article class="project-item group py-10 transition-colors hover:bg-black/[0.02] dark:hover:bg-white/[0.02] will-change-transform">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+            
+            <div class="lg:col-span-1 font-mono text-sm text-zinc-400 dark:text-zinc-500 font-bold">
+              01/
+            </div>
+
+            <div class="lg:col-span-5">
+              <h3 class="text-3xl sm:text-4xl font-black uppercase sofia-bold text-black dark:text-white group-hover:translate-x-2 transition-transform duration-300">
+                Micrograd-Plus-Plus
+              </h3>
+              <p class="text-xs font-mono text-zinc-600 dark:text-zinc-400 mt-2 leading-relaxed">
+                Scalar-valued autograd engine and neural network library engineered from first principles in pure Python. Implements dynamic computational DAGs, reverse-mode automatic differentiation, and topological sorting. Custom activation functions (<code class="text-zinc-800 dark:text-zinc-200">ReLU</code>, <code class="text-zinc-800 dark:text-zinc-200">GELU</code>, <code class="text-zinc-800 dark:text-zinc-200">Tanh</code>, <code class="text-zinc-800 dark:text-zinc-200">Softmax</code>), loss functions (<code class="text-zinc-800 dark:text-zinc-200">CrossEntropy</code>, <code class="text-zinc-800 dark:text-zinc-200">BCE</code>), and Adam optimizer.
+              </p>
+              <div class="flex flex-wrap gap-2 mt-3 font-mono text-[10px] uppercase">
+                <span class="border border-black/10 dark:border-white/15 px-2 py-0.5 bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-300">Autograd Engines</span>
+                <span class="border border-black/10 dark:border-white/15 px-2 py-0.5 bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-300">Reverse-Mode AD</span>
+                <span class="border border-black/10 dark:border-white/15 px-2 py-0.5 bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-300">DAG Graphs</span>
+                <span class="border border-black/10 dark:border-white/15 px-2 py-0.5 bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-300">PyTorch Verified (1e-6)</span>
+              </div>
+            </div>
+
+            <div class="lg:col-span-4 text-xs font-mono text-zinc-500 dark:text-zinc-400">
+              <span class="text-black dark:text-white font-bold block mb-1">PORTFOLIO PROOF:</span>
+              Automated unit test suite verifying mathematical gradients against PyTorch with 1e-6 precision; multi-layer perceptron training on non-linear decision boundaries.
+            </div>
+
+            <div class="lg:col-span-2 flex lg:justify-end items-center gap-3">
+              <a href="https://github.com/soulcodesmith/Micrograd-Plus-Plus" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 px-4 py-2 text-xs font-mono uppercase bg-black text-white dark:bg-white dark:text-black hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-colors">
+                <span>VIEW CODE</span>
+                <span>↗</span>
+              </a>
+            </div>
+
+          </div>
+        </article>
+
+        <!-- Project 02: PyTorch Zero-to-Mastery & Makemore -->
+        <article class="project-item group py-10 transition-colors hover:bg-black/[0.02] dark:hover:bg-white/[0.02] will-change-transform">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+            
+            <div class="lg:col-span-1 font-mono text-sm text-zinc-400 dark:text-zinc-500 font-bold">
+              02/
+            </div>
+
+            <div class="lg:col-span-5">
+              <h3 class="text-3xl sm:text-4xl font-black uppercase sofia-bold text-black dark:text-white group-hover:translate-x-2 transition-transform duration-300">
+                PyTorch Zero-to-Mastery &amp; Makemore
+              </h3>
+              <p class="text-xs font-mono text-zinc-600 dark:text-zinc-400 mt-2 leading-relaxed">
+                Foundational deep learning and generative modeling pipelines. Features custom <code class="text-zinc-800 dark:text-zinc-200">nn.Module</code> parameter architectures, manual forward/loss/backward loops, generalization tracking, character-level bigram language models, multinomial sampling, and Negative Log-Likelihood (NLL) optimization.
+              </p>
+              <div class="flex flex-wrap gap-2 mt-3 font-mono text-[10px] uppercase">
+                <span class="border border-black/10 dark:border-white/15 px-2 py-0.5 bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-300">PyTorch</span>
+                <span class="border border-black/10 dark:border-white/15 px-2 py-0.5 bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-300">Character LMs</span>
+                <span class="border border-black/10 dark:border-white/15 px-2 py-0.5 bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-300">nn.Module</span>
+                <span class="border border-black/10 dark:border-white/15 px-2 py-0.5 bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-300">NLL Loss</span>
+              </div>
+            </div>
+
+            <div class="lg:col-span-4 text-xs font-mono text-zinc-500 dark:text-zinc-400">
+              <span class="text-black dark:text-white font-bold block mb-1">PORTFOLIO PROOF:</span>
+              Regression &amp; multi-class classification workflows; bigram count matrix probability normalization alongside single-layer neural network bigram model (<code class="text-zinc-800 dark:text-zinc-200">W @ x</code>).
+            </div>
+
+            <div class="lg:col-span-2 flex lg:justify-end items-center gap-3">
+              <a href="https://github.com/soulcodesmith" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 px-4 py-2 text-xs font-mono uppercase bg-black text-white dark:bg-white dark:text-black hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-colors">
+                <span>VIEW REPO</span>
+                <span>↗</span>
+              </a>
+            </div>
+
+          </div>
+        </article>
+
+        <!-- Project 03: SysProbe -->
+        <article class="project-item group py-10 transition-colors hover:bg-black/[0.02] dark:hover:bg-white/[0.02] will-change-transform">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+            
+            <div class="lg:col-span-1 font-mono text-sm text-zinc-400 dark:text-zinc-500 font-bold">
+              03/
+            </div>
+
+            <div class="lg:col-span-5">
+              <h3 class="text-3xl sm:text-4xl font-black uppercase sofia-bold text-black dark:text-white group-hover:translate-x-2 transition-transform duration-300">
+                SysProbe: POSIX Resource Inspector
+              </h3>
+              <p class="text-xs font-mono text-zinc-600 dark:text-zinc-400 mt-2 leading-relaxed">
+                Ultra-low-overhead systems utility written in procedural ANSI C99. Interfaces directly with the Linux virtual filesystem (<code class="text-zinc-800 dark:text-zinc-200">/proc</code>). Exercises direct pointer arithmetic, heap allocation safety (<code class="text-zinc-800 dark:text-zinc-200">malloc</code>/<code class="text-zinc-800 dark:text-zinc-200">free</code>), and POSIX system calls to profile hardware CPU statistics, RAM limits, and active process tables.
+              </p>
+              <div class="flex flex-wrap gap-2 mt-3 font-mono text-[10px] uppercase">
+                <span class="border border-black/10 dark:border-white/15 px-2 py-0.5 bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-300">C (C99/POSIX)</span>
+                <span class="border border-black/10 dark:border-white/15 px-2 py-0.5 bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-300">Memory Allocation</span>
+                <span class="border border-black/10 dark:border-white/15 px-2 py-0.5 bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-300">Pointers</span>
+                <span class="border border-black/10 dark:border-white/15 px-2 py-0.5 bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-300">Linux /proc</span>
+              </div>
+            </div>
+
+            <div class="lg:col-span-4 text-xs font-mono text-zinc-500 dark:text-zinc-400">
+              <span class="text-black dark:text-white font-bold block mb-1">PORTFOLIO PROOF:</span>
+              High-performance CLI utility with zero runtime dependencies, providing immediate hardware and process telemetry on Unix workstations.
+            </div>
+
+            <div class="lg:col-span-2 flex lg:justify-end items-center gap-3">
+              <a href="https://github.com/soulcodesmith" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 px-4 py-2 text-xs font-mono uppercase bg-black text-white dark:bg-white dark:text-black hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-colors">
+                <span>VIEW REPO</span>
+                <span>↗</span>
+              </a>
+            </div>
+
+          </div>
+        </article>
+
+        <!-- Project 04: NetByte -->
+        <article class="project-item group py-10 transition-colors hover:bg-black/[0.02] dark:hover:bg-white/[0.02] will-change-transform">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+            
+            <div class="lg:col-span-1 font-mono text-sm text-zinc-400 dark:text-zinc-500 font-bold">
+              04/
+            </div>
+
+            <div class="lg:col-span-5">
+              <h3 class="text-3xl sm:text-4xl font-black uppercase sofia-bold text-black dark:text-white group-hover:translate-x-2 transition-transform duration-300">
+                NetByte: Web &amp; Protocol Guide
+              </h3>
+              <p class="text-xs font-mono text-zinc-600 dark:text-zinc-400 mt-2 leading-relaxed">
+                Full-stack digital literacy and networking portal. Visualizes the DNS resolution lifecycle, TCP 3-way handshakes, HTTP/HTTPS client-server communication models, and digital privacy hygiene using semantic HTML5, modern CSS3, and ES6+ JavaScript.
+              </p>
+              <div class="flex flex-wrap gap-2 mt-3 font-mono text-[10px] uppercase">
+                <span class="border border-black/10 dark:border-white/15 px-2 py-0.5 bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-300">Internet Protocols</span>
+                <span class="border border-black/10 dark:border-white/15 px-2 py-0.5 bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-300">Modern JavaScript</span>
+                <span class="border border-black/10 dark:border-white/15 px-2 py-0.5 bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-300">Tailwind CSS</span>
+                <span class="border border-black/10 dark:border-white/15 px-2 py-0.5 bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-300">Web Architecture</span>
+              </div>
+            </div>
+
+            <div class="lg:col-span-4 text-xs font-mono text-zinc-500 dark:text-zinc-400">
+              <span class="text-black dark:text-white font-bold block mb-1">PORTFOLIO PROOF:</span>
+              Interactive curriculum deployed for peer education in Digital Literacy coursework at JECRC University.
+            </div>
+
+            <div class="lg:col-span-2 flex lg:justify-end items-center gap-3">
+              <a href="#hero" class="inline-flex items-center gap-1 px-4 py-2 text-xs font-mono uppercase bg-black text-white dark:bg-white dark:text-black hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-colors">
+                <span>EXPLORE</span>
+                <span>↗</span>
+              </a>
+            </div>
+
+          </div>
+        </article>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== 5. SERVICES & CORE COMPETENCIES (INTERACTIVE ACCORDION) ==================== -->
+  <section id="services" class="w-full py-20 lg:py-28 px-6 lg:px-12 border-b border-black/10 dark:border-white/10 bg-[#f7f7f7] dark:bg-black transition-colors">
+    <div class="max-w-7xl mx-auto">
+      
+      <!-- Section Headline -->
+      <div class="mb-12">
+        <span class="text-xs font-mono uppercase tracking-widest text-zinc-500 dark:text-zinc-400">CORE COMPETENCIES</span>
+        <h2 class="text-5xl sm:text-7xl font-black uppercase sofia-bold tracking-tight text-black dark:text-white mt-1">
+          SERVICES &amp; CAPABILITIES
+        </h2>
+      </div>
+
+      <!-- Horizontal Expanding Accordion (from Aura Blueprint) -->
+      <div id="services-accordion" class="w-full flex flex-col lg:flex-row border-y border-black dark:border-white/30 divide-y lg:divide-y-0 lg:divide-x divide-black dark:divide-white/30 min-h-[400px]">
+
+        <!-- Card 00-1 -->
+        <div class="service-card flex-1 p-6 flex flex-col justify-between cursor-pointer border-black/10 group overflow-hidden will-change-transform">
+          <div>
+            <div class="flex items-center justify-between text-xs font-mono font-bold text-black dark:text-white">
+              <span>00-1</span>
+              <span class="opacity-0 group-hover:opacity-100 transition-opacity">VERIFIED</span>
+            </div>
+            <h3 class="text-2xl sm:text-3xl font-black uppercase sofia-bold text-black dark:text-white mt-4 leading-none">
+              Autograd &amp; Deep Learning
+            </h3>
+            <p class="text-xs font-mono text-zinc-600 dark:text-zinc-400 mt-4 leading-relaxed">
+              Constructing scalar autograd graphs from scratch. Reverse-mode automatic differentiation, topological sorts, custom activations (<code class="text-zinc-800 dark:text-zinc-200">GELU</code>, <code class="text-zinc-800 dark:text-zinc-200">Softmax</code>), and optimizers (Adam, Momentum).
+            </p>
+          </div>
+          <div class="pt-6 font-mono text-[10px] uppercase text-zinc-500 dark:text-zinc-400 space-y-1">
+            <div>• DYNAMIC COMPUTATIONAL DAGS</div>
+            <div>• PYTORCH 1E-6 GRADIENT TESTS</div>
+            <div>• HE / XAVIER INITIALIZATION</div>
+          </div>
+        </div>
+
+        <!-- Card 00-2 -->
+        <div class="service-card flex-1 p-6 flex flex-col justify-between cursor-pointer border-black/10 group overflow-hidden will-change-transform">
+          <div>
+            <div class="flex items-center justify-between text-xs font-mono font-bold text-black dark:text-white">
+              <span>00-2</span>
+              <span class="opacity-0 group-hover:opacity-100 transition-opacity">VERIFIED</span>
+            </div>
+            <h3 class="text-2xl sm:text-3xl font-black uppercase sofia-bold text-black dark:text-white mt-4 leading-none">
+              PyTorch &amp; Generative NLP
+            </h3>
+            <p class="text-xs font-mono text-zinc-600 dark:text-zinc-400 mt-4 leading-relaxed">
+              Tensor manipulations, GPU memory allocation, and <code class="text-zinc-800 dark:text-zinc-200">nn.Module</code> design. Building character-level language models, bigram count matrices, and multinomial probability sampling with NLL loss.
+            </p>
+          </div>
+          <div class="pt-6 font-mono text-[10px] uppercase text-zinc-500 dark:text-zinc-400 space-y-1">
+            <div>• CUSTOM TRAINING &amp; VAL LOOPS</div>
+            <div>• CHARACTER-LEVEL LANGUAGE MODELS</div>
+            <div>• INFERENCE &amp; GENERALIZATION</div>
+          </div>
+        </div>
+
+        <!-- Card 00-3 -->
+        <div class="service-card flex-1 p-6 flex flex-col justify-between cursor-pointer border-black/10 group overflow-hidden will-change-transform">
+          <div>
+            <div class="flex items-center justify-between text-xs font-mono font-bold text-black dark:text-white">
+              <span>00-3</span>
+              <span class="opacity-0 group-hover:opacity-100 transition-opacity">VERIFIED</span>
+            </div>
+            <h3 class="text-2xl sm:text-3xl font-black uppercase sofia-bold text-black dark:text-white mt-4 leading-none">
+              Systems (C99 &amp; POSIX)
+            </h3>
+            <p class="text-xs font-mono text-zinc-600 dark:text-zinc-400 mt-4 leading-relaxed">
+              Procedural C programming with rigorous attention to memory layouts, pointer arithmetic, buffer safety (<code class="text-zinc-800 dark:text-zinc-200">malloc</code>/<code class="text-zinc-800 dark:text-zinc-200">free</code>), and direct Linux virtual filesystem (<code class="text-zinc-800 dark:text-zinc-200">/proc</code>) telemetry.
+            </p>
+          </div>
+          <div class="pt-6 font-mono text-[10px] uppercase text-zinc-500 dark:text-zinc-400 space-y-1">
+            <div>• RAW POINTER ARITHMETIC</div>
+            <div>• POSIX APIS &amp; PROCESS TABLES</div>
+            <div>• LOW-OVERHEAD CLI PROFILING</div>
+          </div>
+        </div>
+
+        <!-- Card 00-4 -->
+        <div class="service-card flex-1 p-6 flex flex-col justify-between cursor-pointer border-black/10 group overflow-hidden will-change-transform">
+          <div>
+            <div class="flex items-center justify-between text-xs font-mono font-bold text-black dark:text-white">
+              <span>00-4</span>
+              <span class="opacity-0 group-hover:opacity-100 transition-opacity">VERIFIED</span>
+            </div>
+            <h3 class="text-2xl sm:text-3xl font-black uppercase sofia-bold text-black dark:text-white mt-4 leading-none">
+              Math for Machine Learning
+            </h3>
+            <p class="text-xs font-mono text-zinc-600 dark:text-zinc-400 mt-4 leading-relaxed">
+              Solid mathematical foundation in Linear Algebra (vector spaces, matrix transformations \(Ax = b\), projections, orthogonality) and Vector Calculus (partial derivatives, multivariable gradients, chain rule).
+            </p>
+          </div>
+          <div class="pt-6 font-mono text-[10px] uppercase text-zinc-500 dark:text-zinc-400 space-y-1">
+            <div>• LINEAR ALGEBRA &amp; EIGEN SPACES</div>
+            <div>• MULTIVARIABLE VECTOR CALCULUS</div>
+            <div>• VECTOR NORMS (L1, L2, L∞)</div>
+          </div>
+        </div>
+
+        <!-- Card 00-5 -->
+        <div class="service-card flex-1 p-6 flex flex-col justify-between cursor-pointer border-black/10 group overflow-hidden will-change-transform">
+          <div>
+            <div class="flex items-center justify-between text-xs font-mono font-bold text-black dark:text-white">
+              <span>00-5</span>
+              <span class="opacity-0 group-hover:opacity-100 transition-opacity">VERIFIED</span>
+            </div>
+            <h3 class="text-2xl sm:text-3xl font-black uppercase sofia-bold text-black dark:text-white mt-4 leading-none">
+              Web &amp; Tooling Architecture
+            </h3>
+            <p class="text-xs font-mono text-zinc-600 dark:text-zinc-400 mt-4 leading-relaxed">
+              Accessible semantic HTML5, modern Tailwind CSS, and ES6+ JavaScript. Understanding internet protocols (DNS resolution, TCP 3-way handshakes), Git version control, Zsh automation, and LaTeX documentation.
+            </p>
+          </div>
+          <div class="pt-6 font-mono text-[10px] uppercase text-zinc-500 dark:text-zinc-400 space-y-1">
+            <div>• WEB &amp; NETWORK PROTOCOLS</div>
+            <div>• GIT &amp; BRANCH DISCIPLINE</div>
+            <div>• LATEX &amp; OBSIDIAN GRAPH</div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== 5B. CATEGORIZED SKILLS & PROOF POINTS (BADGE CLOUD) ==================== -->
+  <section id="skills-matrix" class="w-full py-20 px-6 lg:px-12 border-b border-black/10 dark:border-white/10 bg-white dark:bg-black transition-colors">
+    <div class="max-w-7xl mx-auto space-y-12">
+      
+      <!-- Section Header -->
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-6 border-b border-black dark:border-white">
+        <div>
+          <span class="text-xs font-mono uppercase tracking-widest text-zinc-500 dark:text-zinc-400">VERIFIED ARTIFACTS &amp; PROOF POINTS</span>
+          <h2 class="text-4xl sm:text-6xl font-black uppercase sofia-bold text-black dark:text-white mt-1">
+            CATEGORIZED SKILLS
+          </h2>
+        </div>
+        <div class="text-xs font-mono text-zinc-500 dark:text-zinc-400 uppercase">
+          100% FIRST-PRINCIPLES IMPLEMENTATIONS
+        </div>
+      </div>
+
+      <!-- Categorized Bento Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <!-- Category 1: AI & Machine Learning -->
+        <div class="p-6 border border-black/10 dark:border-white/15 bg-[#f7f7f7] dark:bg-zinc-950 flex flex-col justify-between">
+          <div>
+            <div class="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5 mb-2">
+              <span>●</span>
+              <span>AI &amp; MACHINE LEARNING</span>
+            </div>
+            <h3 class="text-xl font-black uppercase sofia-bold text-black dark:text-white">
+              Deep Learning &amp; Autograd
+            </h3>
+            <p class="text-xs font-mono text-zinc-600 dark:text-zinc-400 mt-2 leading-relaxed">
+              Scalar autograd engine architecture, reverse-mode AD, computational DAGs, custom activations &amp; loss functions, optimization algorithms, and weight initializations.
+            </p>
+          </div>
+          <div class="mt-6 pt-4 border-t border-black/5 dark:border-white/10">
+            <div class="flex flex-wrap gap-1.5 mb-3">
+              <span class="skill-badge">PyTorch</span>
+              <span class="skill-badge">Autograd Engines</span>
+              <span class="skill-badge">Backpropagation</span>
+              <span class="skill-badge">Computational Graphs</span>
+              <span class="skill-badge">NumPy</span>
+              <span class="skill-badge">Gradient Descent</span>
+              <span class="skill-badge">Character LMs</span>
+            </div>
+            <div class="text-[11px] font-mono text-zinc-500 dark:text-zinc-400">
+              <strong class="text-black dark:text-white">Proof:</strong> Micrograd++ (Unit tests verifying gradients against PyTorch at 1e-6 precision).
+            </div>
+          </div>
+        </div>
+
+        <!-- Category 2: Programming Languages -->
+        <div class="p-6 border border-black/10 dark:border-white/15 bg-[#f7f7f7] dark:bg-zinc-950 flex flex-col justify-between">
+          <div>
+            <div class="text-xs font-mono font-bold text-blue-600 dark:text-blue-400 flex items-center gap-1.5 mb-2">
+              <span>●</span>
+              <span>PROGRAMMING LANGUAGES</span>
+            </div>
+            <h3 class="text-xl font-black uppercase sofia-bold text-black dark:text-white">
+              Polyglot Foundation
+            </h3>
+            <p class="text-xs font-mono text-zinc-600 dark:text-zinc-400 mt-2 leading-relaxed">
+              Strict object &amp; functional Python scripting, procedural memory allocation in C99, modern DOM/browser ES6+ JavaScript, LaTeX mathematical document generation, and Unix automation.
+            </p>
+          </div>
+          <div class="mt-6 pt-4 border-t border-black/5 dark:border-white/10">
+            <div class="flex flex-wrap gap-1.5 mb-3">
+              <span class="skill-badge">Python 3</span>
+              <span class="skill-badge">C (C99/POSIX)</span>
+              <span class="skill-badge">Modern JavaScript</span>
+              <span class="skill-badge">LaTeX</span>
+              <span class="skill-badge">Bash / Zsh</span>
+            </div>
+            <div class="text-[11px] font-mono text-zinc-500 dark:text-zinc-400">
+              <strong class="text-black dark:text-white">Proof:</strong> Dual-IDE production code, compiled C CLI binaries, and Pytest coverage.
+            </div>
+          </div>
+        </div>
+
+        <!-- Category 3: Systems & Core CS -->
+        <div class="p-6 border border-black/10 dark:border-white/15 bg-[#f7f7f7] dark:bg-zinc-950 flex flex-col justify-between">
+          <div>
+            <div class="text-xs font-mono font-bold text-amber-600 dark:text-amber-400 flex items-center gap-1.5 mb-2">
+              <span>●</span>
+              <span>SYSTEMS &amp; CORE CS</span>
+            </div>
+            <h3 class="text-xl font-black uppercase sofia-bold text-black dark:text-white">
+              Low-Level Computing &amp; POSIX
+            </h3>
+            <p class="text-xs font-mono text-zinc-600 dark:text-zinc-400 mt-2 leading-relaxed">
+              Raw pointer arithmetic, direct memory allocation (<code class="text-zinc-800 dark:text-zinc-200">malloc</code>/<code class="text-zinc-800 dark:text-zinc-200">free</code>), Linux virtual filesystem (<code class="text-zinc-800 dark:text-zinc-200">/proc</code>), process table telemetry, and networking models.
+            </p>
+          </div>
+          <div class="mt-6 pt-4 border-t border-black/5 dark:border-white/10">
+            <div class="flex flex-wrap gap-1.5 mb-3">
+              <span class="skill-badge">Memory Allocation</span>
+              <span class="skill-badge">Pointers</span>
+              <span class="skill-badge">Linux /proc</span>
+              <span class="skill-badge">Internet Protocols</span>
+              <span class="skill-badge">Data Structures</span>
+            </div>
+            <div class="text-[11px] font-mono text-zinc-500 dark:text-zinc-400">
+              <strong class="text-black dark:text-white">Proof:</strong> SysProbe (low-overhead POSIX CPU/RAM resource monitor in C).
+            </div>
+          </div>
+        </div>
+
+        <!-- Category 4: Applied Mathematics -->
+        <div class="p-6 border border-black/10 dark:border-white/15 bg-[#f7f7f7] dark:bg-zinc-950 flex flex-col justify-between">
+          <div>
+            <div class="text-xs font-mono font-bold text-purple-600 dark:text-purple-400 flex items-center gap-1.5 mb-2">
+              <span>●</span>
+              <span>APPLIED MATHEMATICS</span>
+            </div>
+            <h3 class="text-xl font-black uppercase sofia-bold text-black dark:text-white">
+              Math for Machine Learning
+            </h3>
+            <p class="text-xs font-mono text-zinc-600 dark:text-zinc-400 mt-2 leading-relaxed">
+              Vector spaces, linear transformations (\(Ax = b\)), column/row pictures, dot products, projections, partial derivatives, multivariable gradients, and vector distance metrics (\(L_1, L_2, L_\infty\)).
+            </p>
+          </div>
+          <div class="mt-6 pt-4 border-t border-black/5 dark:border-white/10">
+            <div class="flex flex-wrap gap-1.5 mb-3">
+              <span class="skill-badge">Linear Algebra</span>
+              <span class="skill-badge">Vector Calculus</span>
+              <span class="skill-badge">Analytic Geometry</span>
+              <span class="skill-badge">Optimization &amp; ERM</span>
+            </div>
+            <div class="text-[11px] font-mono text-zinc-500 dark:text-zinc-400">
+              <strong class="text-black dark:text-white">Proof:</strong> MML Book Part I &amp; II (Empirical Risk Minimization &amp; LunarTech Linear Algebra).
+            </div>
+          </div>
+        </div>
+
+        <!-- Category 5: Web & Frontend Engineering -->
+        <div class="p-6 border border-black/10 dark:border-white/15 bg-[#f7f7f7] dark:bg-zinc-950 flex flex-col justify-between">
+          <div>
+            <div class="text-xs font-mono font-bold text-cyan-600 dark:text-cyan-400 flex items-center gap-1.5 mb-2">
+              <span>●</span>
+              <span>WEB &amp; FRONTEND ENGINEERING</span>
+            </div>
+            <h3 class="text-xl font-black uppercase sofia-bold text-black dark:text-white">
+              Modern Web Architecture
+            </h3>
+            <p class="text-xs font-mono text-zinc-600 dark:text-zinc-400 mt-2 leading-relaxed">
+              Semantic HTML5, utility-first Tailwind CSS, responsive design, interactive JavaScript DOM manipulation, DNS resolution lifecycle, and TCP 3-way handshake models.
+            </p>
+          </div>
+          <div class="mt-6 pt-4 border-t border-black/5 dark:border-white/10">
+            <div class="flex flex-wrap gap-1.5 mb-3">
+              <span class="skill-badge">HTML5 Semantic</span>
+              <span class="skill-badge">Tailwind CSS</span>
+              <span class="skill-badge">Modern JavaScript</span>
+              <span class="skill-badge">Web Protocols</span>
+              <span class="skill-badge">Speed &amp; a11y</span>
+            </div>
+            <div class="text-[11px] font-mono text-zinc-500 dark:text-zinc-400">
+              <strong class="text-black dark:text-white">Proof:</strong> NetByte &amp; Monumental Editorial Portfolio (<code class="text-zinc-800 dark:text-zinc-200">index.html</code>).
+            </div>
+          </div>
+        </div>
+
+        <!-- Category 6: Developer Workflow & Tooling -->
+        <div class="p-6 border border-black/10 dark:border-white/15 bg-[#f7f7f7] dark:bg-zinc-950 flex flex-col justify-between">
+          <div>
+            <div class="text-xs font-mono font-bold text-rose-600 dark:text-rose-400 flex items-center gap-1.5 mb-2">
+              <span>●</span>
+              <span>DEVELOPER WORKFLOW</span>
+            </div>
+            <h3 class="text-xl font-black uppercase sofia-bold text-black dark:text-white">
+              Tooling &amp; Second Brain
+            </h3>
+            <p class="text-xs font-mono text-zinc-600 dark:text-zinc-400 mt-2 leading-relaxed">
+              Git branching discipline, semantic commits, Unix/macOS Zsh shell automation, GCC/Clang compilers, Python virtual environments (<code class="text-zinc-800 dark:text-zinc-200">venv</code>), Pytest suites, and Obsidian knowledge graphs.
+            </p>
+          </div>
+          <div class="mt-6 pt-4 border-t border-black/5 dark:border-white/10">
+            <div class="flex flex-wrap gap-1.5 mb-3">
+              <span class="skill-badge">Git &amp; GitHub</span>
+              <span class="skill-badge">GCC / Clang</span>
+              <span class="skill-badge">Linux CLI</span>
+              <span class="skill-badge">Pytest</span>
+              <span class="skill-badge">Obsidian Graph</span>
+            </div>
+            <div class="text-[11px] font-mono text-zinc-500 dark:text-zinc-400">
+              <strong class="text-black dark:text-white">Proof:</strong> Dual-IDE workflow (VS Code &amp; Antigravity IDE) and linked markdown curriculum.
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== 6. ACADEMIC MILESTONES & COURSEWORK ==================== -->
+  <section class="w-full py-20 px-6 lg:px-12 border-b border-black/10 dark:border-white/10 bg-[#f7f7f7] dark:bg-black transition-colors">
+    <div class="max-w-7xl mx-auto">
+      
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-6 border-b border-black dark:border-white mb-10">
+        <div>
+          <span class="text-xs font-mono uppercase tracking-widest text-zinc-500 dark:text-zinc-400">CURRICULUM EVALUATION</span>
+          <h2 class="text-4xl sm:text-6xl font-black uppercase sofia-bold text-black dark:text-white">
+            ACADEMIC JOURNEY
+          </h2>
+        </div>
+        <div class="text-xs font-mono text-zinc-500 dark:text-zinc-400 uppercase">
+          JECRC UNIVERSITY • CSE BATCH 2026–2030
+        </div>
+      </div>
+
+      <div id="academic-grid" class="grid grid-cols-1 md:grid-cols-4 gap-6">
+        
+        <div class="academic-card p-5 border border-black/10 dark:border-white/15 bg-white dark:bg-zinc-950 will-change-transform">
+          <div class="text-xs font-mono font-bold text-black dark:text-white">SEMESTER 1</div>
+          <div class="text-lg font-black uppercase sofia-bold text-black dark:text-white mt-1">Digital Literacy</div>
+          <p class="text-xs font-mono text-zinc-600 dark:text-zinc-400 mt-2 leading-relaxed">
+            Internet architecture, cyber hygiene, open web standards, and developer toolchain mastery.
+          </p>
+        </div>
+
+        <div class="academic-card p-5 border border-black/10 dark:border-white/15 bg-white dark:bg-zinc-950 will-change-transform">
+          <div class="text-xs font-mono font-bold text-black dark:text-white">SEMESTER 1</div>
+          <div class="text-lg font-black uppercase sofia-bold text-black dark:text-white mt-1">Programming in C/Python</div>
+          <p class="text-xs font-mono text-zinc-600 dark:text-zinc-400 mt-2 leading-relaxed">
+            Memory pointers, recursive logic, standard algorithmic sorting, and computational complexity.
+          </p>
+        </div>
+
+        <div class="academic-card p-5 border border-black/10 dark:border-white/15 bg-white dark:bg-zinc-950 will-change-transform">
+          <div class="text-xs font-mono font-bold text-black dark:text-white">SEMESTER 1</div>
+          <div class="text-lg font-black uppercase sofia-bold text-black dark:text-white mt-1">Engineering Math &amp; Logic</div>
+          <p class="text-xs font-mono text-zinc-600 dark:text-zinc-400 mt-2 leading-relaxed">
+            Linear algebra matrices, Boolean algebra, logic gates, and discrete structures for computing.
+          </p>
+        </div>
+
+        <div class="academic-card p-5 border border-black/10 dark:border-white/15 bg-white dark:bg-zinc-950 will-change-transform">
+          <div class="text-xs font-mono font-bold text-zinc-400 dark:text-zinc-500">UPCOMING</div>
+          <div class="text-lg font-black uppercase sofia-bold text-zinc-400 dark:text-zinc-500 mt-1">DSA &amp; Systems</div>
+          <p class="text-xs font-mono text-zinc-500 dark:text-zinc-500 mt-2 leading-relaxed">
+            Advanced data structures, algorithmic design patterns, and computer network implementations.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== 7. CONNECT & FOOTER (AURA FINALE) ==================== -->
+  <footer id="connect" class="w-full bg-[#f7f7f7] dark:bg-black pt-20 pb-12 px-6 lg:px-12 transition-colors">
+    <div class="max-w-7xl mx-auto space-y-16">
+      
+      <!-- Big Callout Headline -->
+      <div class="overflow-hidden">
+        <span class="text-xs font-mono uppercase tracking-widest text-zinc-500 dark:text-zinc-400">[ LET'S CONNECT ]</span>
+        <h2 id="footer-headline" class="text-6xl sm:text-8xl lg:text-[10rem] font-black uppercase sofia-bold text-black dark:text-white leading-[0.88] mt-2 will-change-transform">
+          LET'S WORK<br />TOGETHER
+        </h2>
+      </div>
+
+      <!-- Contact Action Row -->
+      <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 pt-8 border-t border-black dark:border-white">
+        
+        <div>
+          <div class="text-xs font-mono uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mb-2">PRIMARY CONTACT EMAIL</div>
+          <button onclick="copyEmail()" class="group inline-flex items-center gap-3 text-xl sm:text-3xl font-black uppercase sofia-bold text-black dark:text-white hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors text-left">
+            <span id="copy-email-label">soulcodesmith@gmail.com</span>
+            <span class="text-sm font-mono px-3 py-1 border border-black dark:border-white bg-white dark:bg-black text-black dark:text-white group-hover:bg-black group-hover:text-white dark:group-hover:bg-white dark:group-hover:text-black transition-colors">COPY EMAIL ↗</span>
+          </button>
+        </div>
+
+        <!-- Social Links -->
+        <div class="flex flex-wrap items-center gap-6 font-mono text-xs uppercase tracking-wider text-black dark:text-white">
+          <a href="https://github.com/soulcodesmith" target="_blank" rel="noopener noreferrer" class="hover:underline">GITHUB ↗</a>
+          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="hover:underline">LINKEDIN ↗</a>
+          <a href="https://x.com" target="_blank" rel="noopener noreferrer" class="hover:underline">X (TWITTER) ↗</a>
+          <a href="mailto:soulcodesmith@gmail.com" class="hover:underline">SEND EMAIL ↗</a>
+        </div>
+
+      </div>
+
+      <!-- Bottom Credits & Legal -->
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-10 border-t border-black/10 dark:border-white/10 text-[11px] font-mono uppercase text-zinc-500 dark:text-zinc-400">
+        <div>
+          © 2026 SURAJ • B.TECH CSE • JECRC UNIVERSITY
+        </div>
+        <div>
+          SUBMITTED FOR DIGITAL LITERACY COURSEWORK
+        </div>
+        <a href="#hero" class="text-black dark:text-white hover:font-bold">BACK TO TOP ↑</a>
       </div>
 
     </div>
   </footer>
 
-  <!-- ==================== PROJECT DETAIL MODAL ==================== -->
-  <div id="project-modal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-zinc-900 border border-white/10 rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-2xl relative text-left">
-      <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
-        <h3 id="modal-title" class="text-base font-bold text-zinc-100">Project Details</h3>
-        <button onclick="closeModal()" class="text-zinc-400 hover:text-white p-1 rounded-lg hover:bg-zinc-800">
-          <i data-lucide="x" class="w-4 h-4"></i>
-        </button>
-      </div>
-      <div id="modal-content" class="text-xs text-zinc-300 leading-relaxed space-y-3">
-        <!-- Injected via JavaScript -->
-      </div>
-      <div class="pt-3 border-t border-zinc-800 flex justify-end">
-        <button onclick="closeModal()" class="px-4 py-1.5 text-xs font-medium text-zinc-300 hover:text-white bg-zinc-800 rounded-lg">
-          Close
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ==================== SCRIPTS ==================== -->
+  <!-- ==================== INTERACTIVE JAVASCRIPT ==================== -->
   <script>
     // Initialize Lucide Icons
     lucide.createIcons();
 
+    // ==================== GSAP & LENIS SMOOTH SCROLL ENGINE ====================
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Initialize Lenis Smooth Virtual Scrolling
+    const lenis = new Lenis({
+      duration: 1.25,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Exponential deceleration
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: true,
+      wheelMultiplier: 0.95,
+      touchMultiplier: 1.6,
+      infinite: false,
+    });
+
+    // Synchronize Lenis with GSAP ScrollTrigger
+    lenis.on('scroll', ScrollTrigger.update);
+
+    gsap.ticker.add((time) => {
+      lenis.raf(time * 1000);
+    });
+    gsap.ticker.lagSmoothing(0);
+
+    // Smooth Glide Navigation for all in-page anchors
+    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+      anchor.addEventListener('click', (e) => {
+        const targetId = anchor.getAttribute('href');
+        if (targetId && targetId !== '#') {
+          const targetElem = document.querySelector(targetId);
+          if (targetElem) {
+            e.preventDefault();
+            lenis.scrollTo(targetElem, { offset: -60, duration: 1.3 });
+          }
+        }
+      });
+    });
+
+    // Top Minimalist Progress Bar Scrub
+    gsap.to('#scroll-progress', {
+      scaleX: 1,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: document.body,
+        start: 'top top',
+        end: 'bottom bottom',
+        scrub: 0.1,
+      },
+    });
+
+    // Hero 3D Parallax & Depth Scrub
+    if (document.getElementById('hero-title-top')) {
+      gsap.to('#hero-title-top', {
+        yPercent: -18,
+        opacity: 0.85,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '#hero',
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true,
+        },
+      });
+    }
+
+    if (document.getElementById('hero-title-oper')) {
+      gsap.to('#hero-title-oper', {
+        yPercent: -28,
+        opacity: 0.85,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '#hero',
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true,
+        },
+      });
+    }
+
+    if (document.getElementById('hero-portrait-card')) {
+      gsap.to('#hero-portrait-card', {
+        yPercent: -12,
+        scale: 0.94,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '#hero',
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true,
+        },
+      });
+    }
+
+    if (document.getElementById('hero-left-tags')) {
+      gsap.to('#hero-left-tags', {
+        opacity: 0.2,
+        x: -25,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '#hero',
+          start: '20% top',
+          end: '80% top',
+          scrub: true,
+        },
+      });
+    }
+
+    // Kinetic "ABOUT ME" Stagger Entrance & Floating Wave
+    if (document.getElementById('about-letters-wrap')) {
+      gsap.from('.kinetic-letter', {
+        y: 45,
+        opacity: 0,
+        scale: 0.85,
+        stagger: 0.04,
+        duration: 0.9,
+        ease: 'back.out(1.6)',
+        scrollTrigger: {
+          trigger: '#about-letters-wrap',
+          start: 'top 85%',
+          toggleActions: 'play none none reverse',
+        },
+      });
+
+      gsap.to('.kinetic-letter', {
+        yPercent: (i) => (i % 2 === 0 ? -12 : -24),
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '#about',
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: true,
+        },
+      });
+    }
+
+    // Manifesto Band Dynamic Elevation
+    if (document.getElementById('manifesto-band')) {
+      gsap.from('#manifesto-band', {
+        scale: 0.96,
+        y: 35,
+        opacity: 0.5,
+        duration: 1,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: '#manifesto-band',
+          start: 'top 88%',
+          toggleActions: 'play none none reverse',
+        },
+      });
+    }
+
+    // Selected Works Cascading Reveal
+    gsap.utils.toArray('.project-item').forEach((project) => {
+      gsap.from(project, {
+        y: 45,
+        opacity: 0,
+        duration: 0.85,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: project,
+          start: 'top 88%',
+          toggleActions: 'play none none reverse',
+        },
+      });
+    });
+
+    // Services Accordion Stagger
+    if (document.getElementById('services-accordion')) {
+      gsap.from('.service-card', {
+        y: 35,
+        opacity: 0,
+        stagger: 0.1,
+        duration: 0.8,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: '#services-accordion',
+          start: 'top 85%',
+          toggleActions: 'play none none reverse',
+        },
+      });
+    }
+
+    // Academic Coursework Cards Stagger
+    if (document.getElementById('academic-grid')) {
+      gsap.from('.academic-card', {
+        y: 35,
+        opacity: 0,
+        stagger: 0.08,
+        duration: 0.75,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: '#academic-grid',
+          start: 'top 88%',
+          toggleActions: 'play none none reverse',
+        },
+      });
+    }
+
+    // Footer Headline Monumental Reveal
+    if (document.getElementById('footer-headline')) {
+      gsap.from('#footer-headline', {
+        yPercent: 35,
+        opacity: 0,
+        duration: 1.1,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: '#connect',
+          start: 'top 82%',
+          toggleActions: 'play none none reverse',
+        },
+      });
+    }
+
+    // ==================== CINEMATIC PRELOADER & HERO ENTRANCE ====================
+    let isPreloaderDone = false;
+
+    function finishPreloader() {
+      if (isPreloaderDone) return;
+      isPreloaderDone = true;
+
+      const preloader = document.getElementById('preloader');
+      if (!preloader) return;
+
+      // Unfreeze Lenis scrolling
+      lenis.start();
+
+      // Split guillotine curtain wipe upwards
+      gsap.to(preloader, {
+        yPercent: -100,
+        duration: 0.85,
+        ease: 'power4.inOut',
+        onComplete: () => {
+          preloader.style.display = 'none';
+          triggerHeroEntrance();
+        }
+      });
+    }
+
+    function skipPreloader() {
+      finishPreloader();
+    }
+
+    // Keyboard shortcut to skip preloader: Enter, Space, Escape
+    document.addEventListener('keydown', (e) => {
+      if (!isPreloaderDone && (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ')) {
+        skipPreloader();
+      }
+    });
+
+    function triggerHeroEntrance() {
+      const entranceTl = gsap.timeline();
+
+      entranceTl
+        .from('header', {
+          y: -50,
+          opacity: 0,
+          duration: 0.8,
+          ease: 'power3.out'
+        })
+        .from('#hero-title-top', {
+          y: 90,
+          opacity: 0,
+          duration: 1.1,
+          ease: 'power4.out'
+        }, '-=0.5')
+        .from('#hero-portrait-card', {
+          scale: 0.82,
+          y: 40,
+          opacity: 0,
+          duration: 1.1,
+          ease: 'back.out(1.5)'
+        }, '-=0.85')
+        .from('#hero-title-oper', {
+          y: 90,
+          opacity: 0,
+          duration: 1.1,
+          ease: 'power4.out'
+        }, '-=0.95')
+        .from('#hero-left-tags span', {
+          x: -30,
+          opacity: 0,
+          stagger: 0.08,
+          duration: 0.7,
+          ease: 'power2.out'
+        }, '-=0.75');
+    }
+
+    function runPreloader() {
+      // Pause scrolling while preloader runs
+      lenis.stop();
+
+      const loaderNum = document.getElementById('loader-num');
+      const loaderBar = document.getElementById('loader-bar');
+      const loaderStatus = document.getElementById('loader-status');
+
+      const counterObj = { val: 0 };
+
+      gsap.to(counterObj, {
+        val: 100,
+        duration: 1.15,
+        ease: 'power2.inOut',
+        onUpdate: () => {
+          const count = Math.floor(counterObj.val);
+          if (loaderNum) {
+            loaderNum.textContent = count < 10 ? `00${count}` : count < 100 ? `0${count}` : `${count}`;
+          }
+          if (loaderBar) {
+            loaderBar.style.width = `${count}%`;
+          }
+          if (loaderStatus) {
+            if (count > 80) loaderStatus.textContent = 'SYSTEM ARCHITECTURE LOADED...';
+            else if (count > 45) loaderStatus.textContent = 'CALIBRATING GSAP & GRAPH ENGINES...';
+            else if (count > 15) loaderStatus.textContent = 'BOOTING SURAJ // PORTFOLIO 2026...';
+          }
+        },
+        onComplete: () => {
+          setTimeout(finishPreloader, 100);
+        }
+      });
+    }
+
+    // Run Preloader immediately or on ready
+    if (document.readyState === 'complete') {
+      runPreloader();
+    } else {
+      window.addEventListener('load', runPreloader);
+    }
+
+    // ==================== INTERACTIVE 3D PERSPECTIVE TILT ====================
+    const heroSection = document.getElementById('hero');
+    const heroCard = document.getElementById('hero-portrait-card');
+
+    if (heroSection && heroCard && window.innerWidth >= 768) {
+      heroSection.addEventListener('mousemove', (e) => {
+        const rect = heroSection.getBoundingClientRect();
+        const mouseX = e.clientX - rect.left - rect.width / 2;
+        const mouseY = e.clientY - rect.top - rect.height / 2;
+
+        const tiltX = -(mouseY / rect.height) * 16;
+        const tiltY = (mouseX / rect.width) * 16;
+
+        gsap.to(heroCard, {
+          rotateX: tiltX,
+          rotateY: tiltY,
+          transformPerspective: 1200,
+          duration: 0.5,
+          ease: 'power2.out',
+        });
+      });
+
+      heroSection.addEventListener('mouseleave', () => {
+        gsap.to(heroCard, {
+          rotateX: 0,
+          rotateY: 0,
+          duration: 0.8,
+          ease: 'power3.out',
+        });
+      });
+    }
+
+    // ==================== LIVE JAIPUR IST CLOCK TICKER ====================
+    function updateLiveClock() {
+      const clockEl = document.getElementById('live-clock');
+      if (clockEl) {
+        const now = new Date();
+        const options = { timeZone: 'Asia/Kolkata', hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' };
+        const timeStr = now.toLocaleTimeString('en-GB', options);
+        clockEl.textContent = `JAIPUR [ ${timeStr} IST ] • 27.02° N`;
+      }
+    }
+    setInterval(updateLiveClock, 1000);
+    updateLiveClock();
+
+    // ==================== THEME TOGGLE LOGIC ====================
+    function updateThemeUI(isDark) {
+      const themeText = document.getElementById('theme-text');
+      const mobileThemeText = document.getElementById('mobile-theme-text');
+      const sunIcon = document.getElementById('theme-icon-sun');
+      const moonIcon = document.getElementById('theme-icon-moon');
+
+      if (isDark) {
+        if (themeText) themeText.textContent = 'LIGHT';
+        if (mobileThemeText) mobileThemeText.textContent = '[ SWITCH TO LIGHT ]';
+        if (sunIcon) sunIcon.classList.remove('hidden');
+        if (moonIcon) moonIcon.classList.add('hidden');
+      } else {
+        if (themeText) themeText.textContent = 'DARK';
+        if (mobileThemeText) mobileThemeText.textContent = '[ SWITCH TO DARK ]';
+        if (sunIcon) sunIcon.classList.add('hidden');
+        if (moonIcon) moonIcon.classList.remove('hidden');
+      }
+      lucide.createIcons();
+      ScrollTrigger.refresh();
+    }
+
+    function toggleTheme() {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      updateThemeUI(isDark);
+    }
+
+    // Keyboard shortcut: Press 'd' to toggle theme
+    document.addEventListener('keydown', (e) => {
+      if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA' && (e.key === 'd' || e.key === 'D')) {
+        toggleTheme();
+      }
+    });
+
+    // Sync button state on initial load
+    window.addEventListener('DOMContentLoaded', () => {
+      const isDark = document.documentElement.classList.contains('dark');
+      updateThemeUI(isDark);
+    });
+
     // Mobile Navigation Toggle
     const mobileToggle = document.getElementById('mobile-toggle');
     const mobileMenu = document.getElementById('mobile-menu');
-    const menuIcon = document.getElementById('menu-icon');
 
     function toggleMenu() {
-      if (mobileMenu.classList.contains('hidden')) {
-        mobileMenu.classList.remove('hidden');
-        menuIcon.setAttribute('data-lucide', 'x');
-      } else {
-        mobileMenu.classList.add('hidden');
-        menuIcon.setAttribute('data-lucide', 'menu');
-      }
-      lucide.createIcons();
+      mobileMenu.classList.toggle('hidden');
     }
-    mobileToggle.addEventListener('click', toggleMenu);
+    if (mobileToggle) {
+      mobileToggle.addEventListener('click', toggleMenu);
+    }
 
-    // One-Click Copy Email Functionality
+    // One-Click Copy Email Logic
     const emailToCopy = 'soulcodesmith@gmail.com';
 
     function copyEmail() {
       navigator.clipboard.writeText(emailToCopy).then(() => {
         showToast('Email copied to clipboard: ' + emailToCopy);
-        const copyBtnText = document.getElementById('copy-btn-text');
-        if (copyBtnText) {
-          const originalText = copyBtnText.innerText;
-          copyBtnText.innerText = 'Copied to Clipboard! ✓';
-          setTimeout(() => {
-            copyBtnText.innerText = originalText;
-          }, 3000);
+        const label = document.getElementById('copy-email-label');
+        if (label) {
+          const original = label.innerText;
+          label.innerText = 'COPIED TO CLIPBOARD! ✓';
+          setTimeout(() => { label.innerText = original; }, 3000);
         }
-      }).catch(err => {
-        // Fallback for older browsers
+      }).catch(() => {
         const textarea = document.createElement('textarea');
         textarea.value = emailToCopy;
         document.body.appendChild(textarea);
@@ -929,64 +1572,14 @@
       const toast = document.getElementById('toast');
       const toastMsg = document.getElementById('toast-message');
       toastMsg.innerText = msg;
-      toast.classList.remove('translate-y-16', 'opacity-0');
+      toast.classList.remove('translate-y-20', 'opacity-0');
       toast.classList.add('translate-y-0', 'opacity-100');
 
       setTimeout(() => {
         toast.classList.remove('translate-y-0', 'opacity-100');
-        toast.classList.add('translate-y-16', 'opacity-0');
+        toast.classList.add('translate-y-20', 'opacity-0');
       }, 3500);
     }
-
-    // Project Details Data & Modal Logic
-    const projectDetails = {
-      project1: {
-        title: "Micrograd-Plus-Plus: Scalar Autograd Engine",
-        details: `
-          <p><strong>First-Principles Deep Learning Objective:</strong> Built a lightweight autograd engine in pure Python from scratch, extending Andrej Karpathy's micrograd architecture.</p>
-          <div class="p-3 bg-black/40 rounded-lg border border-zinc-800 font-mono text-[11px] text-zinc-300">
-            • Value Class: Tracks scalar data, gradients, mathematical operations, and parent nodes.<br/>
-            • Topological Sort: Dynamically orders the Directed Acyclic Graph (DAG) for exact chain-rule execution.<br/>
-            • Reverse-Mode Autodiff: Implements backward passes for addition, multiplication, powers, ReLU, and tanh.
-          </div>
-          <p><strong>Engineering Relevance:</strong> Direct demonstration of calculus foundations, computational graph algorithms, and clean object-oriented Python design.</p>
-        `
-      },
-      project3: {
-        title: "SysProbe: Lightweight POSIX Resource Monitor",
-        details: `
-          <p><strong>First-Principles Systems Objective:</strong> Communicating directly with the operating system kernel via standard Unix interfaces and memory buffers.</p>
-          <div class="p-3 bg-black/40 rounded-lg border border-zinc-800 font-mono text-[11px] text-zinc-300">
-            • File Streaming: Reads /proc/stat, /proc/meminfo, and /proc/loadavg in C.<br/>
-            • Memory Footprint: Statically allocated buffers (&lt; 64 KB total execution size).<br/>
-            • ANSI Terminal Display: Real-time refresh loop without external curses dependency.
-          </div>
-          <p><strong>College Relevance:</strong> Demonstrates C programming mastery, pointers, and Linux environment literacy as required by university coursework.</p>
-        `
-      }
-    };
-
-    function openModal(id) {
-      const data = projectDetails[id];
-      if (!data) return;
-      document.getElementById('modal-title').innerText = data.title;
-      document.getElementById('modal-content').innerHTML = data.details;
-      document.getElementById('project-modal').classList.remove('hidden');
-    }
-
-    function closeModal() {
-      document.getElementById('project-modal').classList.add('hidden');
-    }
-
-    // Close modal on escape key or clicking backdrop
-    window.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeModal();
-    });
-    document.getElementById('project-modal').addEventListener('click', (e) => {
-      if (e.target.id === 'project-modal') closeModal();
-    });
   </script>
-  <script src="https://cdn.botpress.cloud/webchat/v5.0/inject.js"></script>
-<script src="https://files.bpcontent.cloud/2026/10/03/06/20261003061608-KF3PEIK9.js" defer></script>
 </body>
 </html>
